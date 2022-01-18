@@ -13,7 +13,7 @@ export default class BlockMessage extends Block {
     return moment(this.date).format('h:mm A')
   }
   get messageDate() {
-    return moment(this.date).format('MMMM Do YYYY')
+    return moment(this.date).format('MMMM Do YYYY').toUpperCase()
   }
 
   _planLines() {
@@ -104,7 +104,7 @@ export default class BlockMessage extends Block {
     this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
 
     // Sender information/metadata
-    this.ctx.font = '500 24px Montserrat'
+    this.ctx.font = '700 24px Montserrat'
     this.ctx.fillText(this.messageDate, 40, this.startPosY + 130)
     // Calculate the width of the time to align to the right
     const { width } = this.ctx.measureText(this.messageTime)
