@@ -41,17 +41,6 @@ export default class BlockSpotifyHeader extends Block {
     const logo = await this._loadImage('img/spotify.png')
     this.ctx.drawImage(logo, 250 - 80, this.startPosY + 12, 160, 57)
 
-    // Subheading backgruond
-    this.ctx.beginPath()
-    this.ctx.rect(0, this.startPosY + BG_HEIGHT, 500, 50)
-    this.ctx.fillStyle = "black"
-    this.ctx.fill()
-
-    // Subheading
-    this.ctx.font = "700 20px Montserrat"
-    this.ctx.fillStyle = "white"
-    this._fillTextCentered('GIVE THESE A LISTEN', this.startPosY + BG_HEIGHT + 32)
-
-    return { endPosY: this.startPosY + 150 }
+    return { endPosY: this.startPosY + BG_HEIGHT }
   }
 }

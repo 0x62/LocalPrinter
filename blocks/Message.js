@@ -104,18 +104,20 @@ export default class BlockMessage extends Block {
     this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
 
     // Sender information/metadata
-    this.ctx.font = '700 24px Montserrat'
+    this.ctx.font = '700 22px Montserrat'
     this.ctx.fillText(this.messageDate, 40, this.startPosY + 130)
     // Calculate the width of the time to align to the right
     const { width } = this.ctx.measureText(this.messageTime)
     this.ctx.fillText(this.messageTime, 460 - width , this.startPosY + 130)
-    this.ctx.fillText(this.from, 40, this.startPosY + 160)
+
+    this.ctx.font = '600 20px Montserrat'
+    this.ctx.fillText(this.from.toUpperCase(), 40, this.startPosY + 160)
 
     // Plan out the layout so the text wraps correctly
     const lines = this._planLines()
 
     // Loop through lines and render
-    const LINE_SPACING = 20
+    const LINE_SPACING = 25
     const LINE_HEIGHT = 33
     let yPos = this.startPosY + 220
 

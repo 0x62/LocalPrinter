@@ -7,6 +7,7 @@ import MessagesProvider from './providers/Messages.js'
 import QuoteProvider from './providers/Quote.js'
 import WeatherProvider from './providers/Weather.js'
 import SpotifyProvider from './providers/Spotify.js'
+import InstagramProvider from './providers/Instagram.js'
 import HttpClient from './HttpClient.js'
 import Cloudflare from './CloudflareApi.js'
 const { forEach } = pIteration
@@ -18,6 +19,7 @@ const providers = [
   new QuoteProvider(),
   new WeatherProvider(),
   new SpotifyProvider(),
+  new InstagramProvider(),
 ]
 
 export default class IssueGenerator {
@@ -79,14 +81,39 @@ export default class IssueGenerator {
 
         case 'SpotifyProvider':
           blocks.push(new Blocks.SpotifyHeader())
-          provider.tracks.forEach((track, idx, arr) => {
-            blocks.push(new Blocks.SpotifyTrack(track))
+
+          // New playlist items
+          if (provider.tracks.length) {
+            blocks.push(new Blocks.Subheader('NEW IN YOUR PLAYLIST <3'))
             blocks.push(new Blocks.Spacer(15))
-            if (idx < arr.length - 1) {
-              blocks.push(new Blocks.Divider('dashed'))
+            provider.tracks.forEach((track, idx, arr) => {
+              blocks.push(new Blocks.SpotifyTrack(track))
               blocks.push(new Blocks.Spacer(15))
-            }
-          })
+              if (idx < arr.length - 1) {
+                blocks.push(new Blocks.Divider('dashed'))
+                blocks.push(new Blocks.Spacer(15))
+              }
+            })
+          }
+
+          // New podcast episodes
+          // blocks.push(new Blocks.Subheader('FRESH PODCAST EPISODES'))
+          // blocks.push(new Blocks.Spacer(15))
+          // provider.tracks.forEach((track, idx, arr) => {
+          //   blocks.push(new Blocks.SpotifyTrack(track))
+          //   blocks.push(new Blocks.Spacer(15))
+          //   if (idx < arr.length - 1) {
+          //     blocks.push(new Blocks.Divider('dashed'))
+          //     blocks.push(new Blocks.Spacer(15))
+          //   }
+          // })
+          break
+
+        case 'InstagramProvider':
+          blocks.push(new Blocks.Photo({
+            url: provider.latestPost.thumbnail_src,
+            caption: provider.latestPost.edge_media_to_caption.edges[0].node.text,
+          }))
           break
       }
 

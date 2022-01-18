@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch'
+
 export default class HttpClient {
   constructor(options = {}) {
     this._baseUrl = options.baseUrl || ""

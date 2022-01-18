@@ -13,7 +13,7 @@ export default class BlockHeader extends Block {
     const WIDTH = 95
     const HEIGHT = 63
     this.ctx.beginPath()
-    this.ctx.rect((500 / 2) - (WIDTH / 2), 50, WIDTH, HEIGHT)
+    this.ctx.rect((500 / 2) - (WIDTH / 2), 30, WIDTH, HEIGHT)
     this.ctx.fillStyle = "black"
     this.ctx.fill()
 
@@ -21,8 +21,7 @@ export default class BlockHeader extends Block {
     this.ctx.font = "600 42px Montserrat"
     this.ctx.fillStyle = "white"
     let text = this.issue.issueNo + ''
-    let { width } = this.ctx.measureText(text)
-    this.ctx.fillText(text, (500 - width) / 2, 64 + HEIGHT / 2)
+    this._fillTextCentered(text, 44 + HEIGHT / 2)
 
     // Line above issue date
     this.ctx.strokeStyle = "black"
@@ -35,10 +34,13 @@ export default class BlockHeader extends Block {
 
     // Issue date
     this.ctx.fillStyle = "black"
-    this.ctx.font = "600 28px Montserrat"
+    this.ctx.font = "600 22px Montserrat"
     text = moment(this.issue.issuedAt).format('MMMM Do YYYY, hA').toUpperCase();
-    ({ width } = this.ctx.measureText(text));
-    this.ctx.fillText(text, (500 - width) / 2, 185)
+    this._fillTextCentered(text, 130)
+
+    // Issue title
+    this.ctx.font = "800 28px Montserrat";
+    this._fillTextCentered('THE DAILY WENDY', 185)
 
     // Line below
     this.ctx.beginPath()
