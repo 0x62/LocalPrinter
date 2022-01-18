@@ -1,0 +1,28 @@
+{
+  "name": "printer",
+  "version": "1.0.0",
+  "description": "## Notes",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0x62/printer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0x62/printer/issues"
+  },
+  "homepage": "https://github.com/0x62/printer#readme",
+  "dependencies": {
+    "canvas": "^2.9.0",
+    "canvas-dither": "^1.0.1",
+    "dotenv": "^14.2.0",
+    "moment": "^2.29.1",
+    "p-iteration": "^1.1.8",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
