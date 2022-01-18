@@ -4,6 +4,7 @@ const { createCanvas, registerFont } = canvas
 const { forEachSeries } = pIteration
 
 registerFont('fonts/staatliches.ttf', { family: 'Staatliches' })
+registerFont('fonts/gloria-hallelujah.ttf', { family: 'Gloria Hallelujah' })
 registerFont('fonts/montserrat-extralight.ttf', { family: 'Montserrat', weight: 200 })
 registerFont('fonts/montserrat-light.ttf', { family: 'Montserrat', weight: 300 })
 registerFont('fonts/montserrat-regular.ttf', { family: 'Montserrat', weight: 400 })
@@ -31,12 +32,19 @@ export default class Issue {
   async render() {
     // Render theory
     // 1. Create a canvas element of width 500 and height 10,000
-    // 2. Loop through blocks, setting canvas element and yPos of previous block + spacing
+    // 2. Loop through blocks, setting canvas element and yPos of previous block
     // 3. Render each block to the canvas, calculate height and update last position
     // 4. Resize canvas height to last yPos to trim
-    // 5. Render to image, upload to Cloudflare Images, store issue metadata in KV
+    // 5. Render to image file, upload/email for record keeping then print
     this.canvas = createCanvas(500, 5000)
     this.ctx = this.canvas.getContext('2d')
+
+    // Fill the canvas in white
+    this.ctx.beginPath()
+    this.ctx.rect(0, 0, this.canvas.width, this.canvas.height)
+    this.ctx.fillStyle = "white"
+    this.ctx.closePath()
+    this.ctx.fill()
 
     await forEachSeries(this.blocks, async block => {
       block._setupCanvas(this)

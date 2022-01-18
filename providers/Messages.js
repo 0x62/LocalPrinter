@@ -6,6 +6,8 @@ export default class MessagesProvider extends HttpClient {
       baseUrl: '',
       headers: {}
     })
+
+    this.hasFreshContent = true
   }
 
   async fetch() {

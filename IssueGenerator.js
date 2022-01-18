@@ -66,7 +66,7 @@ export default class IssueGenerator {
         // Messages received between 23:00 and 07:00 aren't immediately printed as it's loud
         case 'MessagesProvider':
           // provider.data.forEach
-          blocks.push(new Blocks.Message({ from: 'ben@ovalbit.com', at: new Date(), contents: 'Hello world' }))
+          blocks.push(new Blocks.Message({ from: 'ben@ovalbit.com', date: new Date(), message: 'Hope you have a good day babe you look beautiful <3' }))
           break
 
         case 'QuoteProvider':
@@ -79,12 +79,18 @@ export default class IssueGenerator {
 
         case 'SpotifyProvider':
           blocks.push(new Blocks.SpotifyHeader())
-          provider.tracks.forEach((track, idx) => {
+          provider.tracks.forEach((track, idx, arr) => {
             blocks.push(new Blocks.SpotifyTrack(track))
-            blocks.push(new Blocks.Spacer(30))
+            blocks.push(new Blocks.Spacer(15))
+            if (idx < arr.length - 1) {
+              blocks.push(new Blocks.Divider('dashed'))
+              blocks.push(new Blocks.Spacer(15))
+            }
           })
           break
       }
+
+      blocks.push(new Blocks.Spacer(40))
     }
 
     this.issue.addBlocks(...blocks)

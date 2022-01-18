@@ -9,12 +9,6 @@ export default class BlockHeader extends Block {
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   render() {
-    // Background white
-    this.ctx.beginPath()
-    this.ctx.rect(0, this.startPosY, 500, 200)
-    this.ctx.fillStyle = "white"
-    this.ctx.fill()
-
     // Circle in middle
     const WIDTH = 95
     const HEIGHT = 63

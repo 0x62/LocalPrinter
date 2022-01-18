@@ -1,5 +1,4 @@
 import SpotifyClient from 'spotify-web-api-node'
-import HttpClient from '../HttpClient.js'
 
 const spotify = new SpotifyClient({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -7,16 +6,8 @@ const spotify = new SpotifyClient({
 })
 
 // Fetch songs added to a playlist for wendy, if not seen before then print
-// https://github.com/spotify/web-api/issues/519#issuecomment-618114678
-// https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
-
-export default class SpotifyProvider extends HttpClient {
+export default class SpotifyProvider {
   constructor() {
-    super({
-      baseUrl: '',
-      headers: {}
-    })
-
     this.hasFreshContent = true
   }
 
@@ -47,7 +38,6 @@ export default class SpotifyProvider extends HttpClient {
     spotify.setAccessToken(auth.body.access_token)
 
     this.tracks = await this._fetchAllPlaylistTracks()
-    console.log(JSON.stringify(this.tracks, null, 2))
   }
 
   async cleanUp() {

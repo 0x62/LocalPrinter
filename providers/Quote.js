@@ -7,7 +7,7 @@ export default class QuoteProvider extends HttpClient {
       headers: {}
     })
 
-    this.hasFreshContent = true
+    // this.hasFreshContent = true
   }
 
   async fetch() {

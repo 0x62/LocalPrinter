@@ -24,12 +24,6 @@ export default class BlockSpotifyTrack extends Block {
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
-    // Background white
-    this.ctx.beginPath()
-    this.ctx.rect(0, this.startPosY, 500, 140)
-    this.ctx.fillStyle = "white"
-    this.ctx.fill()
-
     const [scanCode, albumArt] = await Promise.all([
       this._loadRemoteImage(this.scanCodeUrl),
       this._loadRemoteImage(this.albumArtUrl)

@@ -17,12 +17,6 @@ export default class BlockPosterText extends Block {
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   render() {
-    // Fill background white
-    this.ctx.beginPath()
-    this.ctx.rect(0, this.startPosY, 500, this.canvas.height - this.startPosY)
-    this.ctx.fillStyle = "white"
-    this.ctx.fill()
-
     console.log(`starting render`, { startPosY: this.startPosY, height: this.canvas.height - this.startPosY })
 
     this.ctx.font = fontStr(MIN_FONT_SIZE);

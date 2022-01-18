@@ -9,12 +9,6 @@ export default class BlockSpotifyHeader extends Block {
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
-    // Background white
-    this.ctx.beginPath()
-    this.ctx.rect(0, this.startPosY, 500, 150)
-    this.ctx.fillStyle = "white"
-    this.ctx.fill()
-
     // Line at the top
     this.ctx.strokeStyle = "black"
     this.ctx.lineWidth = 5
