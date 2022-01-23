@@ -30,8 +30,8 @@ export default class BlockSpotifyTrack extends Block {
     ])
 
     // Draw album art and scan code
-    this._drawDitheredImage(albumArt, 10, this.startPosY, 150, 150)
-    this.ctx.drawImage(scanCode, 480 - 320, this.startPosY + 80, 320, 80)
+    this._drawDitheredImage(albumArt, 0, this.startPosY, 160, 160)
+    this.ctx.drawImage(scanCode, 170, this.startPosY + 80, 320, 80)
 
     // Artist name
     this.ctx.font = "700 26px Montserrat"
@@ -43,6 +43,6 @@ export default class BlockSpotifyTrack extends Block {
     this.ctx.fillStyle = "black"
     this._fillTextFromTopLeft(this.track.name, 180, this.startPosY + 40)
 
-    return { endPosY: this.startPosY + 150 }
+    return { endPosY: this.startPosY + 160 }
   }
 }

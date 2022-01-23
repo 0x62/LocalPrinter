@@ -14,11 +14,12 @@ registerFont('fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
 registerFont('fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
 
 export default class Issue {
-  constructor({ issueNo, issuedAt }) {
+  constructor({ issueNo, issuedAt, updateOnly }) {
     this.blocks = []
     this.height = 0
     this.issueNo = issueNo
     this.issuedAt = issuedAt
+    this.updateOnly = updateOnly
   }
 
   addBlocks(...blocks) {
@@ -30,6 +31,8 @@ export default class Issue {
   }
 
   async render() {
+    console.log(`[Issue] Starting render`)
+
     // Render theory
     // 1. Create a canvas element of width 500 and height 10,000
     // 2. Loop through blocks, setting canvas element and yPos of previous block
@@ -48,18 +51,24 @@ export default class Issue {
 
     await forEachSeries(this.blocks, async block => {
       block._setupCanvas(this)
-      const { endPosY } = await block.render()
-      this.height = endPosY
+      try {
+        const { endPosY } = await block.render()
+        console.log(`[Issue] Rendered ${block.constructor.name} (${endPosY - this.height}px)`)
+        this.height = endPosY
+      } catch (err) {
+        console.log(`[Issue] Failed to render ${block.constructor.name}`)
+        console.log(err)
+      }
     })
 
-    console.log(`final height = ${this.height}`)
+    console.log(`[Issue] Final height ${this.height}px`)
 
     // To resize the canvas we create another canvas of the correct size and copy data
     const exporter = createCanvas(500, this.height)
     const exportCtx = exporter.getContext('2d')
     exportCtx.drawImage(this.canvas, 0, 0, 500, this.height, 0, 0, 500, this.height)
 
-    console.log(`created export ctx with height ${this.height}`)
+    console.log(`[Issue] Render complete`)
 
     return exporter.createPNGStream()
   }

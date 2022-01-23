@@ -1,6 +1,6 @@
-import HttpClient from '../HttpClient.js'
+import Provider from '../Provider.js'
 
-export default class WeatherProvider extends HttpClient {
+export default class WeatherProvider extends Provider {
   constructor() {
     super({
       baseUrl: '',
@@ -8,11 +8,7 @@ export default class WeatherProvider extends HttpClient {
     })
   }
 
-  async fetch() {
+  async fetch({ updateOnly }) {
     
-  }
-
-  async cleanUp() {
-
   }
 }

@@ -1,6 +1,6 @@
-import HttpClient from '../HttpClient.js'
+import Provider from '../Provider.js'
 
-export default class HeadlinesProvider extends HttpClient {
+export default class HeadlinesProvider extends Provider {
   constructor() {
     super({
       baseUrl: '',
@@ -9,10 +9,6 @@ export default class HeadlinesProvider extends HttpClient {
   }
 
   async fetch() {
-    
-  }
-
-  async cleanUp() {
     
   }
 }

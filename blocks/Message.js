@@ -104,6 +104,7 @@ export default class BlockMessage extends Block {
     this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
 
     // Sender information/metadata
+    this.ctx.fillStyle = "black"
     this.ctx.font = '700 22px Montserrat'
     this.ctx.fillText(this.messageDate, 40, this.startPosY + 130)
     // Calculate the width of the time to align to the right
@@ -120,7 +121,7 @@ export default class BlockMessage extends Block {
     const LINE_SPACING = 25
     const LINE_HEIGHT = 33
     let yPos = this.startPosY + 220
-
+    
     for (let i = 0; i < lines.length; i++) {
       this._renderLine(yPos, lines[i])
       yPos += LINE_HEIGHT + LINE_SPACING

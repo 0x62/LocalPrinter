@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import IssueGenerator from './IssueGenerator.js'
+import LocalPrinter from './LocalPrinter.js'
 
-const generator = new IssueGenerator()
-await generator.run()
+const printer = new LocalPrinter()
+printer.start()

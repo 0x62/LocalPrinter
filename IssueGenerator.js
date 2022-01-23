@@ -9,13 +9,15 @@ import WeatherProvider from './providers/Weather.js'
 import SpotifyProvider from './providers/Spotify.js'
 import InstagramProvider from './providers/Instagram.js'
 import HttpClient from './HttpClient.js'
-import Cloudflare from './CloudflareApi.js'
+import Storage from './Storage.js'
 const { forEach } = pIteration
 
-const TEMP_FILE = './issue.png'
+const messages = new MessagesProvider()
+const storage = new Storage('db.json')
+
 const providers = [
+  messages,
   new HeadlinesProvider(),
-  new MessagesProvider(),
   new QuoteProvider(),
   new WeatherProvider(),
   new SpotifyProvider(),
@@ -25,11 +27,103 @@ const providers = [
 export default class IssueGenerator {
   constructor() {
     this.issue = null
-    this.providers = null
+    this.providers = []
   }
 
-  // Fetch all the data to determine what blocks are needed
-  async prepare() {
+  async initialize() {
+    if (!storage.initialized) {
+      await storage.initialize()
+    }
+
+    providers.forEach(provider => {
+      const { name } = provider.constructor
+      storage.registerProvider(provider)
+      
+      // Providers are also realtime
+      if (provider.REALTIME) {
+        console.log(`[IssueGenerator] ${name} has real-time support`)
+        provider.setup()
+        provider.on('update', (msg) => {
+          console.log(`[IssueGenerator] ${name} has fresh real-time content`)
+          if (name === 'MessagesProvider') {
+            this.createMessageIssue()
+          }
+        })
+      }
+    })
+  }
+
+  async update() {
+    // Fetch the latest data from each of the providers
+    await forEach(providers, this._updateProvider.bind(this))
+  }
+
+  async _updateProvider(provider) {
+    try {
+      // Realtime providers don't have a fetch function
+      if (!provider.REALTIME) {
+        await provider.fetch(this.issue)
+      }
+    } catch (err) {
+      console.log(`[IssueGenerator.${provider._idPrefix}] Failed to fetch data`)
+      console.log(err)
+    }
+  }
+
+  // Create a mini issue just to print out the message block
+  async createMessageIssue() {
+    // Create the issue
+    this.issue = new Issue({ updateOnly: true })
+    this.providers = [messages]
+
+    const blocks = [new Blocks.Spacer(15)]
+    const { newMessages } = messages.data
+
+    newMessages.forEach((message, idx) => {
+      if (message.photo) {
+        blocks.push(new Blocks.Photo({ url: message.photo }))
+      } else {
+        blocks.push(new Blocks.Message(message))
+      }
+      blocks.push(new Blocks.Spacer(15))
+    })
+
+    this.issue.addBlocks(...blocks)
+    
+    await this.renderToFile()
+    await this.cleanUp()
+  }
+
+  async createUpdateIssue() {
+    console.log(`[IssueGenerator] Creating update issue`)
+    // We also need to set some issue metadata like date & time, issue number
+    // This should be stored in KV and updated
+    const issueNo = 23
+    const issuedAt = new Date()
+
+    // Create the issue
+    this.issue = new Issue({ issueNo, issuedAt, updateOnly: true })
+
+    await this.update()
+
+    // Save providers for later use
+    this.providers = providers.filter(prv => prv.hasFreshContent)
+    // No fresh content, end without generating
+    if (this.providers.length === 0) {
+      console.log(`[IssueGenerator] No providers have fresh content, exiting`)
+      return
+    }
+
+    const blocks = this._createBlocks(this.providers)
+    this.issue.addBlocks(...blocks)
+
+    await this.renderToFile()
+    await this.cleanUp()
+  }
+
+  async createIssue() {
+    console.log(`[IssueGenerator] Creating issue`)
+
     // We also need to set some issue metadata like date & time, issue number
     // This should be stored in KV and updated
     const issueNo = 23
@@ -38,28 +132,49 @@ export default class IssueGenerator {
     // Create the issue
     this.issue = new Issue({ issueNo, issuedAt })
 
-    // Fetch the latest data from each of the providers
-    await forEach(providers, async provider => {
-      try {
-        await provider.fetch()
-      } catch (err) {
-        console.log(`${provider.constructor.name}: Failed to fetch data`)
-        console.log(err)
-      }
+    await this.update()
+
+    // Save providers for later use
+    this.providers = providers.filter(prv => prv.hasContent)
+    // No content, end now
+    if (this.providers.length === 0) {
+      console.log(`[IssueGenerator] No providers have content, exiting`)
+      return
+    }
+
+    const blocks = this._createBlocks(this.providers)
+    this.issue.addBlocks(...blocks)
+
+    await this.renderToFile()
+    await this.cleanUp()
+  }
+
+  async renderToFile() {
+    const TEMP_FILE = 'output/issue.png'
+    const file = fs.createWriteStream(TEMP_FILE)
+    const data = await this.issue.render()
+    
+    // Wait for file to be written
+    await new Promise(r => {
+      data.pipe(file)
+      file.on('finish', () => r())
     })
 
-    const data = providers.filter(provider => provider.hasFreshContent)
+    console.log(`[IssueGenerator] Export complete`)
+  }
+
+  _createBlocks(providers) {
     const blocks = [
       new Blocks.Header(),
       new Blocks.Spacer(40),
     ]
 
     // Loop through the data providers with fresh content and add required blocks
-    for (let i = 0; i < data.length; i++) {
-      const provider = data[i]
-      console.log(`checking provider ${provider.constructor.name}`)
+    for (let i = 0; i < providers.length; i++) {
+      const provider = providers[i]
+      const startLen = blocks.length
 
-      switch (provider.constructor.name) {
+      switch (provider._idPrefix) {
         case 'HeadlinesProvider':
           blocks.push(new Blocks.Headlines())
           break
@@ -67,8 +182,19 @@ export default class IssueGenerator {
         // Print any unseen messages
         // Messages received between 23:00 and 07:00 aren't immediately printed as it's loud
         case 'MessagesProvider':
-          // provider.data.forEach
-          blocks.push(new Blocks.Message({ from: 'ben@ovalbit.com', date: new Date(), message: 'Hope you have a good day babe you look beautiful <3' }))
+          const { messages, newMessages } = provider.data
+          if (this.issue.updateOnly) {
+            // Update shows all unseen messages
+            newMessages.forEach((message, idx) => {
+              blocks.push(new Blocks.Message(message))
+              if (idx < newMessages.length - 1) {
+                blocks.push(new Blocks.Spacer(15))
+              }
+            })
+          } else {
+            // Regular issue shows the last message received
+            blocks.push(new Blocks.Message(messages[0]))
+          }
           break
 
         case 'QuoteProvider':
@@ -82,15 +208,28 @@ export default class IssueGenerator {
         case 'SpotifyProvider':
           blocks.push(new Blocks.SpotifyHeader())
 
-          // New playlist items
-          if (provider.tracks.length) {
-            blocks.push(new Blocks.Subheader('NEW IN YOUR PLAYLIST <3'))
+          const { tracks, newTracks } = provider.data
+          if (this.issue.updateOnly) {
+            // If update shows the new music for the day
+            blocks.push(new Blocks.Subheader('NEW MUSIC FOR TODAY <3'))
             blocks.push(new Blocks.Spacer(15))
-            provider.tracks.forEach((track, idx, arr) => {
+            newTracks.forEach((track, idx, arr) => {
               blocks.push(new Blocks.SpotifyTrack(track))
               blocks.push(new Blocks.Spacer(15))
+              blocks.push(new Blocks.Divider('dashed'))
               if (idx < arr.length - 1) {
-                blocks.push(new Blocks.Divider('dashed'))
+                blocks.push(new Blocks.Spacer(15))
+              }
+            })
+          } else {
+            // Otherwise shows the latest 5 added
+            blocks.push(new Blocks.Subheader('RECENTLY ADDED TO PLAYLIST'))
+            blocks.push(new Blocks.Spacer(15))
+            tracks.forEach((track, idx, arr) => {
+              blocks.push(new Blocks.SpotifyTrack(track))
+              blocks.push(new Blocks.Spacer(15))
+              blocks.push(new Blocks.Divider('dashed'))
+              if (idx < arr.length - 1) {
                 blocks.push(new Blocks.Spacer(15))
               }
             })
@@ -110,59 +249,27 @@ export default class IssueGenerator {
           break
 
         case 'InstagramProvider':
-          blocks.push(new Blocks.Photo({
-            url: provider.latestPost.thumbnail_src,
-            caption: provider.latestPost.edge_media_to_caption.edges[0].node.text,
-          }))
+          blocks.push(new Blocks.Photo(provider.data.latestPost))
           break
       }
+
+      const newBlocks = blocks.slice(-blocks.length - startLen).map(block => block.constructor.name)
+      console.log(`[IssueGenerator.${provider._idPrefix}] Added ${newBlocks.join(', ')}`)
 
       blocks.push(new Blocks.Spacer(40))
     }
 
-    this.issue.addBlocks(...blocks)
-    this.issue.addBlocks(new Blocks.Footer())
-
-    // Save the providers used so data can be marked as printed at the end
-    this.providers = data
-  }
-
-  // Run
-  async run() {
-    await this.prepare()
-    const file = fs.createWriteStream(TEMP_FILE)
-    const data = await this.issue.render()
-    
-    // Wait for file to be written
-    await new Promise(r => {
-      data.pipe(file)
-      file.on('finish', () => r())
-    })
-
-    // // Upload 
-    // const image = await this.upload()
-    
-    // // Save issue to KV
-    // await this.cleanUp(image)
-
-    // // Return URL to image
-    // const [url] = image.variants
-    // return { url }
-  }
-
-  // Upload the rendered issue
-  async upload() {
-    const file = fs.createReadStream(TEMP_FILE)
-    const body = new FormData()
-    body.append('file', file)
-
-    const { result } = await Cloudflare.post('/images/v1', body)
-    return result
+    blocks.push(new Blocks.Footer())
+    return blocks
   }
 
   // Mark data used as required
-  async cleanUp(image) {
+  async cleanUp() {
     // Clean up data from external providers
-    await forEach(this.providers, provider => provider.cleanUp())
+    await forEach(this.providers, provider => {
+      provider.cleanUp()
+    })
+    // Save state
+    await storage.write()
   }
 }

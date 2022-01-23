@@ -1,0 +1,48 @@
+{
+  "hasRunOnce": false,
+  "nextIssueNo": 1,
+  "MessagesProvider": {
+    "seenIds": [
+      null,
+      102,
+      104,
+      108,
+      106,
+      111
+    ]
+  },
+  "HeadlinesProvider": {
+    "seenIds": []
+  },
+  "QuoteProvider": {
+    "seenIds": []
+  },
+  "WeatherProvider": {
+    "seenIds": []
+  },
+  "SpotifyProvider": {
+    "seenIds": [
+      "spotify:track:2RzoV1EWko8halYEkvUY9l",
+      "spotify:track:3qi98GCs3sbvbAJugWmdQY",
+      "spotify:track:1XYFQv9t9lD5iNHPC25L3m",
+      "spotify:track:2B174pdWRHWbkwqP37v89s",
+      "spotify:track:1aae2Vz2CgDK6UvA9XQRX4"
+    ]
+  },
+  "InstagramProvider": {
+    "seenIds": [
+      "2755640989617627799",
+      "2747518375930240411",
+      "2744722964169414160",
+      "2741697737885728878",
+      "2737336478708988750",
+      "2733118761684793104",
+      "2731376234514421064",
+      "2730208010934672306",
+      "2725111043590166969",
+      "2722075761747440485",
+      "2719288271039212447",
+      "2717917818236312881"
+    ]
+  }
+}

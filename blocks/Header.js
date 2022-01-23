@@ -23,7 +23,13 @@ export default class BlockHeader extends Block {
     let text = this.issue.issueNo + ''
     this._fillTextCentered(text, 44 + HEIGHT / 2)
 
-    // Line above issue date
+    // Issue date
+    this.ctx.fillStyle = "black"
+    this.ctx.font = "600 22px Montserrat"
+    text = moment(this.issue.issuedAt).format('MMMM Do YYYY, hA').toUpperCase();
+    this._fillTextCentered(text, 130)
+
+    // Line above issue title
     this.ctx.strokeStyle = "black"
     this.ctx.lineWidth = 2
     this.ctx.beginPath()
@@ -32,15 +38,10 @@ export default class BlockHeader extends Block {
     this.ctx.closePath()
     this.ctx.stroke()
 
-    // Issue date
-    this.ctx.fillStyle = "black"
-    this.ctx.font = "600 22px Montserrat"
-    text = moment(this.issue.issuedAt).format('MMMM Do YYYY, hA').toUpperCase();
-    this._fillTextCentered(text, 130)
-
     // Issue title
     this.ctx.font = "800 28px Montserrat";
-    this._fillTextCentered('THE DAILY WENDY', 185)
+    text = this.issue.updateOnly ? 'MORNING UPDATE' : 'THE DAILY WENDY'
+    this._fillTextCentered(text, 185)
 
     // Line below
     this.ctx.beginPath()

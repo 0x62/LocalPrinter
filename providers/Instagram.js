@@ -1,6 +1,9 @@
-import HttpClient from '../HttpClient.js'
+import Provider from '../Provider.js'
 
-export default class InstagramProvider extends HttpClient {
+// Note: This uses an undocumented Instagram API to fetch a surprisingly large amount of data in one
+// unauthenticated request. That said, it will inevitably break at some point.
+
+export default class InstagramProvider extends Provider {
   constructor() {
     super({
       baseUrl: `https://www.instagram.com`,
@@ -13,7 +16,20 @@ export default class InstagramProvider extends HttpClient {
   }
 
   get hasFreshContent() {
-    return !!this.latestPost
+    return this.hasContent && !this.isIdSeen(this.data.latestPost.id)
+  }
+
+  get hasContent() {
+    return this.data.latestPost
+  }
+
+  extractPosts(data) {
+    return data.graphql.user.edge_owner_to_timeline_media.edges
+      .map(({ node }) => ({
+        id: node.id,
+        url: node.thumbnail_src,
+        caption: node.edge_media_to_caption.edges[0].node.text,
+      }))
   }
 
   extractLatestPost(data) {
@@ -21,12 +37,18 @@ export default class InstagramProvider extends HttpClient {
     return node
   }
 
-  async fetch() {
-    const data = await this.get(`/${process.env.INSTAGAM_USER}/?__a=1`)
-    this.latestPost = this.extractLatestPost(data)
-  }
+  async fetch({ updateOnly }) {
+    const data = await this.http.get(`/${process.env.INSTAGAM_USER}/?__a=1`)
+    const posts = this.extractPosts(data)
+    const latestPost = posts[0]
 
-  async cleanUp() {
+    if (updateOnly) {
+      this.markSeenOnCleanUp(posts, ({ id }) => id)
+    }
 
+    this.data = {
+      latestPost,
+      posts,
+    }
   }
 }

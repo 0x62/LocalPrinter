@@ -1,5 +1,8 @@
 import moment from 'moment'
+import canvas from 'canvas'
+import dither from 'canvas-dither'
 import Block from '../Block.js'
+const { createCanvas } = canvas
 
 export default class BlockPhoto extends Block {
   constructor({ url, caption }) {
@@ -16,8 +19,19 @@ export default class BlockPhoto extends Block {
       this._loadImage('img/photo-frame.png')
     ])
 
-    // Draw album art and scan code
-    this._drawDitheredImage(image, 45, this.startPosY + 45, 410, 410)
+    // Create a new canvas so we can center the image and crop to square
+    const slot = createCanvas(410, 410)
+    const slotCtx = slot.getContext('2d')
+    const hRatio = 410 / image.width
+    const vRatio = 410 / image.width
+    const ratio = Math.min(hRatio, vRatio)
+    const shiftX = (410 - image.width*ratio) / 2
+    const shiftY = (410 - image.height*ratio) / 2
+    slotCtx.drawImage(image, 0, 0, image.width, image.height, shiftX, shiftY, image.width * ratio, image.height * ratio)
+
+    const imgData = slotCtx.getImageData(0, 0, 410, 410)
+    const dithered = dither.atkinson(imgData)
+    this.ctx.putImageData(dithered, 45, this.startPosY + 45)
 
     this.ctx.drawImage(frame, 0, this.startPosY, 500, 500)
 

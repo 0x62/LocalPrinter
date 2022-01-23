@@ -1,7 +1,7 @@
-import HttpClient from '../HttpClient.js'
+import Provider from '../Provider.js'
 
-export default class QuoteProvider extends HttpClient {
-  constructor() {
+export default class QuoteProvider extends Provider {
+  constructor(storage) {
     super({
       baseUrl: '',
       headers: {}
@@ -10,11 +10,7 @@ export default class QuoteProvider extends HttpClient {
     // this.hasFreshContent = true
   }
 
-  async fetch() {
-    
-  }
-
-  async cleanUp() {
+  async fetch({ updateOnly }) {
     
   }
 }
