@@ -25,11 +25,12 @@ export default class LocalPrinter {
 
   async start() {
     console.log('[LocalPrinter] Starting...')
-    await this.generator.initialize()
-
+    
     if (this.serialPort) {
       this.printer = new Printer(this.serialPort)
     }
+
+    await this.generator.initialize()
 
     // Create an update issue every day at 7am
     cron.schedule('0 7 * * *', this._createUpdateIssue.bind(this))
@@ -52,6 +53,7 @@ export default class LocalPrinter {
   }
 
   _print() {
+    if (!this.printer) return
     console.log('[LocalPrinter] Printing...')
     this.printer.printImage('./output/issue.png').print(() => {
       console.log('[LocalPrinter] Print completed')
