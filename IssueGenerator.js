@@ -161,9 +161,9 @@ export default class IssueGenerator extends EventEmitter {
       data.pipe(file)
       file.on('finish', () => r())
     })
-
-    this.emit('print')
+    
     console.log(`[IssueGenerator] Export complete`)
+    this.emit('print')
   }
 
   _createBlocks(providers) {

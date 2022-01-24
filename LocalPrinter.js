@@ -34,8 +34,6 @@ export default class LocalPrinter {
     // Create an update issue every day at 7am
     cron.schedule('0 7 * * *', this._createUpdateIssue.bind(this))
     console.log('[LocalPrinter] Running, next issue will be generated at 7:00am')
-
-    this._createIssue()
   }
 
   // Handle GPIO for main button pushed, should create a full issue
