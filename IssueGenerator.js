@@ -87,7 +87,9 @@ export default class IssueGenerator extends EventEmitter {
       } else {
         blocks.push(new Blocks.Message(message))
       }
-      blocks.push(new Blocks.Spacer(100))
+      if (idx < newMessages.length - 1) {
+        blocks.push(new Blocks.Spacer(100))
+      }
     })
 
     blocks.push(new Blocks.Spacer(150))
