@@ -263,6 +263,7 @@ export default class IssueGenerator extends EventEmitter {
     }
 
     blocks.push(new Blocks.Footer())
+    blocks.push(new Blocks.Spacer(120))
     return blocks
   }
 
