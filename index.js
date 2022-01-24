@@ -2,7 +2,7 @@ import 'dotenv/config'
 import SerialPort from 'serialport'
 import LocalPrinter from './LocalPrinter.js'
 
-const port = new SerialPort('/dev/ttyUSB0', {
+const port = new SerialPort('/dev/tty0', {
   baudRate: 19200
 })
 

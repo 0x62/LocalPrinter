@@ -10,15 +10,21 @@ export default class LocalPrinter {
     this.printer = null
     this.serialPort = serialPort
 
-    console.log('[LocalPrinter] Waiting for serial port to be ready...')
-    this.serialPort.on('ready', this.start.bind(this))
+    if (serialPort) {
+      console.log('[LocalPrinter] Waiting for serial port to be ready...')
+      this.serialPort.on('ready', this.start.bind(this))
+    } else {
+      console.log('[LocalPrinter] Serial port not provided, running in dev mode')
+    }
   }
 
   async start() {
     console.log('[LocalPrinter] Starting...')
     await this.generator.initialize()
 
-    this.printer = new Printer(this.serialPort)
+    if (this.serialPort) {
+      this.printer = new Printer(this.serialPort)
+    }
 
     // Create an update issue every day at 7am
     cron.schedule('0 7 * * *', this._createUpdateIssue.bind(this))
