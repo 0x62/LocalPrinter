@@ -87,7 +87,7 @@ export default class IssueGenerator extends EventEmitter {
       } else {
         blocks.push(new Blocks.Message(message))
       }
-      blocks.push(new Blocks.Spacer(130))
+      blocks.push(new Blocks.Spacer(140))
     })
 
     this.issue.addBlocks(...blocks)
@@ -263,7 +263,7 @@ export default class IssueGenerator extends EventEmitter {
     }
 
     blocks.push(new Blocks.Footer())
-    blocks.push(new Blocks.Spacer(120))
+    blocks.push(new Blocks.Spacer(140))
     return blocks
   }
 
