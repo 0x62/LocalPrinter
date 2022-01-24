@@ -2,11 +2,12 @@ import moment from 'moment'
 import Block from '../Block.js'
 
 export default class BlockMessage extends Block {
-  constructor({ from, date, message }) {
+  constructor({ from, date, message, photo }) {
     super()
     this.from = from
     this.date = date
     this.message = message
+    this.photo =
   }
 
   get messageTime() {
@@ -101,7 +102,7 @@ export default class BlockMessage extends Block {
     this.ctx.drawImage(postmark, 210, this.startPosY + 15, 300, 100)
 
     // Draw title image (Wendy Mail)
-    this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
+    // this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
 
     // Sender information/metadata
     this.ctx.fillStyle = "black"
@@ -114,6 +115,8 @@ export default class BlockMessage extends Block {
     this.ctx.font = '600 20px Montserrat'
     this.ctx.fillText(this.from.toUpperCase(), 40, this.startPosY + 160)
 
+    if (this.)
+
     // Plan out the layout so the text wraps correctly
     const lines = this._planLines()
 
@@ -121,7 +124,7 @@ export default class BlockMessage extends Block {
     const LINE_SPACING = 25
     const LINE_HEIGHT = 33
     let yPos = this.startPosY + 220
-    
+
     for (let i = 0; i < lines.length; i++) {
       this._renderLine(yPos, lines[i])
       yPos += LINE_HEIGHT + LINE_SPACING
