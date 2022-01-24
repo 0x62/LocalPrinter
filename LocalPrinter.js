@@ -28,6 +28,7 @@ export default class LocalPrinter {
     
     if (this.serialPort) {
       this.printer = new Printer(this.serialPort)
+      console.log('[LocalPrinter] Initialized serial printer')
     }
 
     await this.generator.initialize()
@@ -53,7 +54,11 @@ export default class LocalPrinter {
   }
 
   _print() {
-    if (!this.printer) return
+    if (!this.printer) {
+      console.log('this.printer = null')
+      return
+    }
+
     console.log('[LocalPrinter] Printing...')
     this.printer.printImage('./output/issue.png').print(() => {
       console.log('[LocalPrinter] Print completed')
