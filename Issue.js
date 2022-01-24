@@ -63,7 +63,7 @@ export default class Issue {
 
     console.log(`[Issue] Final height ${this.height}px`)
 
-    const PRINT_WIDTH = 387
+    const PRINT_WIDTH = 384
     const PRINT_HEIGHT = (PRINT_WIDTH / 500) * this.height
 
     // To resize the canvas we create another canvas of the correct size and copy data
