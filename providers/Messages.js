@@ -40,7 +40,7 @@ class MessagesProvider extends Provider {
         // Plain text message
         this.data.newMessages.push({
           id: msg.message_id,
-          from: msg.from.first_name + ' ' + msg.from.last_name,
+          from: msg.from.first_name,
           date: new Date(msg.date * 1000),
           message: msg.text,
         })

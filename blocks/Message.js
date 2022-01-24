@@ -112,7 +112,7 @@ export default class BlockMessage extends Block {
     this.ctx.fillText(this.messageTime, 460 - width , this.startPosY + 130)
 
     this.ctx.font = '600 20px Montserrat'
-    this.ctx.fillText(this.from.toUpperCase(), 40, this.startPosY + 160)
+    this.ctx.fillText('FROM ' + this.from.toUpperCase(), 40, this.startPosY + 160)
 
     // Plan out the layout so the text wraps correctly
     const lines = this._planLines()
