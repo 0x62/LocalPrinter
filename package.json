@@ -27,6 +27,8 @@
     "node-cron": "^3.0.0",
     "node-telegram-bot-api": "^0.56.0",
     "p-iteration": "^1.1.8",
-    "spotify-web-api-node": "^5.0.2"
+    "serialport": "^9.2.8",
+    "spotify-web-api-node": "^5.0.2",
+    "thermalprinter": "^0.3.10"
   }
 }

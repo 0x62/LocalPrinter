@@ -1,11 +1,15 @@
-# printer-backend
+# Local Printer
 
-## Notes
+IoT printer based on the Adafruit receipt printer. Heavily inspired by Berg Little Printers.
 
-Should have three endpoints:
+## Demo
 
-* `/issue`: fetch todays issue
-* `/inbox`: poll to fetch messages. This endpoint should automatically return no messages from 23:00 to 07:00 to prevent printer waking
-* `/wh/email`: webhook to receive inbound emails for sending messages
+Demo images here.
 
-Needs to also listen for cronjob, which generates the issue before the client fetches
+## Adding new modules
+
+You can easily create your own module by creating a `provider`, which fetches the data required, and
+a set of `blocks` which render it. Then add the blocks required to the issue in `IssueGenerator._createBlocks`.
+
+Real-time providers are also supported (see `providers/Messages` for an example Telegram integration), which
+can wake up and print immediately.
