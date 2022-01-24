@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events'
 import fs from 'fs'
 import pIteration from 'p-iteration'
 import Issue from './Issue.js'
@@ -24,8 +25,9 @@ const providers = [
   new InstagramProvider(),
 ]
 
-export default class IssueGenerator {
+export default class IssueGenerator extends EventEmitter {
   constructor() {
+    super()
     this.issue = null
     this.providers = []
   }
@@ -76,7 +78,7 @@ export default class IssueGenerator {
     this.issue = new Issue({ updateOnly: true })
     this.providers = [messages]
 
-    const blocks = [new Blocks.Spacer(15)]
+    const blocks = [new Blocks.Spacer(20)]
     const { newMessages } = messages.data
 
     newMessages.forEach((message, idx) => {
@@ -85,7 +87,7 @@ export default class IssueGenerator {
       } else {
         blocks.push(new Blocks.Message(message))
       }
-      blocks.push(new Blocks.Spacer(15))
+      blocks.push(new Blocks.Spacer(20))
     })
 
     this.issue.addBlocks(...blocks)
@@ -160,6 +162,7 @@ export default class IssueGenerator {
       file.on('finish', () => r())
     })
 
+    this.emit('print')
     console.log(`[IssueGenerator] Export complete`)
   }
 
