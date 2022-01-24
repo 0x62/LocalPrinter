@@ -10,17 +10,16 @@ export default class LocalPrinter {
     this.printer = null
     this.serialPort = serialPort
 
-
     if (serialPort) {
       console.log('[LocalPrinter] Waiting for serial port to be ready...')
-      this.serialPort.on('open', this.start.bind(this))
+      this.serialPort.on('open', () => this.start())
       this.serialPort.on('error', err => console.log(err))
     } else {
       console.log('[LocalPrinter] Serial port not provided, running in dev mode')
       this.start()
     }
 
-    this.generator.on('print', this._print.bind(this))
+    this.generator.on('print', () => this._print())
   }
 
   async start() {
