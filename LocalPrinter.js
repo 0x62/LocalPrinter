@@ -52,7 +52,6 @@ export default class LocalPrinter {
   }
 
   _print() {
-    if (!this.printer) return
     console.log('[LocalPrinter] Printing...')
     this.printer.printImage('./output/issue.png').print(() => {
       console.log('[LocalPrinter] Print completed')
