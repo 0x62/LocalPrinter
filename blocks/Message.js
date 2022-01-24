@@ -2,12 +2,11 @@ import moment from 'moment'
 import Block from '../Block.js'
 
 export default class BlockMessage extends Block {
-  constructor({ from, date, message, photo }) {
+  constructor({ from, date, message }) {
     super()
     this.from = from
     this.date = date
     this.message = message
-    this.photo =
   }
 
   get messageTime() {
