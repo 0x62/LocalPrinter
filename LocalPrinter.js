@@ -29,7 +29,6 @@ export default class LocalPrinter {
 
     if (this.serialPort) {
       this.printer = new Printer(this.serialPort)
-      this.printer.on('ready', this._printTestIssue.bind(this))
     }
 
     // Create an update issue every day at 7am
