@@ -12,7 +12,7 @@ export default class LocalPrinter {
 
     if (serialPort) {
       console.log('[LocalPrinter] Waiting for serial port to be ready...')
-      this.serialPort.on('ready', this.start.bind(this))
+      this.serialPort.on('open', this.start.bind(this))
     } else {
       console.log('[LocalPrinter] Serial port not provided, running in dev mode')
     }
@@ -24,13 +24,14 @@ export default class LocalPrinter {
 
     if (this.serialPort) {
       this.printer = new Printer(this.serialPort)
+      this.printer.on('ready', this._printTestIssue.bind(this))
     }
 
     // Create an update issue every day at 7am
     cron.schedule('0 7 * * *', this._createUpdateIssue.bind(this))
     console.log('[LocalPrinter] Running, next issue will be generated at 7:00am')
 
-    this._createIssue()
+    // this._createIssue()
   }
 
   // Handle GPIO for main button pushed, should create a full issue
@@ -46,5 +47,12 @@ export default class LocalPrinter {
   _createIssue() {
     console.log('[LocalPrinter] Creating issue')
     return this.generator.createIssue()
+  }
+
+  _printTestIssue() {
+    console.log('printing test issue')
+    this.printer.printImage('./output/issue.png').print(() => {
+      console.log('done')
+    })
   }
 }
