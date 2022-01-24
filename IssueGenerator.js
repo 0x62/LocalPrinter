@@ -78,7 +78,7 @@ export default class IssueGenerator extends EventEmitter {
     this.issue = new Issue({ updateOnly: true })
     this.providers = [messages]
 
-    const blocks = [new Blocks.Spacer(20)]
+    const blocks = [new Blocks.Spacer(40)]
     const { newMessages } = messages.data
 
     newMessages.forEach((message, idx) => {
@@ -87,7 +87,7 @@ export default class IssueGenerator extends EventEmitter {
       } else {
         blocks.push(new Blocks.Message(message))
       }
-      blocks.push(new Blocks.Spacer(20))
+      blocks.push(new Blocks.Spacer(40))
     })
 
     this.issue.addBlocks(...blocks)
@@ -161,7 +161,7 @@ export default class IssueGenerator extends EventEmitter {
       data.pipe(file)
       file.on('finish', () => r())
     })
-    
+
     console.log(`[IssueGenerator] Export complete`)
     this.emit('print')
   }
