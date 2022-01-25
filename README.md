@@ -1,6 +1,8 @@
 # LocalPrinter
 
-IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by Berg Little Printers.
+IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by Berg Little Printers. 
+
+**🚨 Alpha: This project is under active development. It's likely to break at any time.**
 
 ## Parts
 
