@@ -22,7 +22,7 @@ Demo images here.
 
 ## Installation
 
-Clone the repository, create a config file according to the below. You can also enable `DEV_MODE` to skip printing and render straight to file for testing.
+Clone the repository, create a config file according to the below and `npm install`. You can also enable `DEV_MODE` to skip printing and render straight to file for testing.
 
 I also recommend installing Tailscale + SSH to make managing the printer remotely easier.
 
