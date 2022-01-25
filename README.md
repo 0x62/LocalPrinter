@@ -4,7 +4,7 @@ LocalPrinter can receive messages on Telegram, get news headlines, spotify playl
 
 By default it automatically prints an update issue every morning at 7am and a full issue when the button is pushed.
 
-**🚨 Alpha: This project is under active development. It's likely to break at any time.**
+**🚨 Pre Release: This project is under active development. It's likely to break at any time (or be broken right now).**
 
 ## Parts
 
