@@ -6,23 +6,27 @@ By default it automatically prints an update issue every morning at 7am and a fu
 
 **🚨 Pre Release: This project is under active development. It's likely to break at any time (or be broken right now).**
 
-## Parts
-
-* Raspberri Pi Zero 2 W
-* Cashino [CSN-A2](https://www.alibaba.com/product-detail/CASHINO-58mm-Embedded-ticket-printer-CSN_60531714536.html) printer (alternatively [CSN-A2L](https://www.alibaba.com/product-detail/Cashino-CSN-A2-2inch-58mm-Kiosk_1600441215807.html?spm=a2700.galleryofferlist.normal_offer.d_title.658922e1AFb4oR))
-* 9V-5V step down ([example](https://www.ebay.co.uk/itm/193632397779?var=493943066064))
-* Momentary button with LED ([example](https://www.ebay.co.uk/itm/183415145654?var=690724911342))
-* 2.1mm DC panel mount ([example](https://www.ebay.co.uk/itm/362281631986?var=631486269634))
-* 9V 2A power supply ([example](https://www.ebay.co.uk/itm/203296688898))
-* Wooden box
-
 ## Demo
 
 Demo images here.
 
-## About
+## Parts
 
-LocalPrinter can fetch updates from a Spotify playlist, receive messages on Telegram
+* Raspberri Pi Zero 2 W
+* Cashino [CSN-A2](https://www.alibaba.com/product-detail/CASHINO-58mm-Embedded-ticket-printer-CSN_60531714536.html) printer (alternatively [CSN-A2L](https://www.alibaba.com/product-detail/Cashino-CSN-A2-2inch-58mm-Kiosk_1600441215807.html?spm=a2700.galleryofferlist.normal_offer.d_title.658922e1AFb4oR))
+* 9V-5V step down ([mine](https://www.ebay.co.uk/itm/193632397779))
+* Momentary button with LED ([mine](https://www.ebay.co.uk/itm/183415145654))
+* 2.1mm DC panel mount ([mine](https://www.ebay.co.uk/itm/362281631986))
+* 9V 2A power supply ([mine](https://www.ebay.co.uk/itm/203296688898))
+* Wooden box
+
+## Prerequisites
+
+* [Enable the serial port](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable/enabling-serial-console#option-2-enabling-via-raspi-config-1961278-5)
+* Install `canvas` dependancies: `sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev`
+* Install `nodejs`
+  * `curl -sL https://deb.nodesource.com/setup_15.x | sudo bash -`
+  * `apt-get install -y nodejs`
 
 ## Installation
 
@@ -38,7 +42,7 @@ Run with `node index.js`. You'll likely want to use another tool to launch the p
 
 Hardware is heavily based on the [Adafruit IoT printer](https://learn.adafruit.com/pi-thermal-printer), with the addition of a 9V power supply for the printer (and stepped down to 5V for Pi).
 
-[Enable the serial port](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable/enabling-serial-console#option-2-enabling-via-raspi-config-1961278-5) and connect the data port on the printer to the Pi GND, GPIO14 and GPIO15. Connect the printer power to 9V power supply. You can actually power the printer off 5V if you need to, but the print quality is much better with more power.
+Connect the data port on the printer to the Pi GND, GPIO14 and GPIO15. Connect the printer power to 9V power supply. You can actually power the printer off 5V if you need to, but the print quality is much better with more power.
 
 Connect the button to 
 
@@ -89,8 +93,8 @@ INSTAGAM_USER = ""
 
 # Print messages received to Telegram bot
 TELEGRAM_TOKEN = ""
-TG_ALLOWED_IDS = "" # comma seperated
-TG_IMMEDIATE = true # print received messages immediately, rather than in next update
+TG_ALLOWED_IDS = "" # Comma seperated
+TG_IMMEDIATE = true # Print received messages immediately, rather than in next update
 
 # Headlines from The Guardian
 GUARDIAN_TOKEN = ""
@@ -102,7 +106,8 @@ WEATHER_CITY = ""
 # Daily quote
 # Expects a CSV with quote, author (optional)
 # Will randomly pick unseen options until all are used and reset
-QUOTES_DB = "./quotes.csv"
+QUOTE_DB = "./data/quotes.csv"
+QUOTE_IS_UPDATE = false # Set to true to still print this if no other providers have updates 
 ```
 
 
