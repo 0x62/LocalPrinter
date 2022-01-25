@@ -1,8 +1,8 @@
 # LocalPrinter
 
-IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by Berg [Little Printers](https://nordprojects.co/projects/littleprinters/). 
+LocalPrinter can receive messages on Telegram, get news headlines, spotify playlist updates, weather forcasts, daily quotes and more. All fetching, processing and rendering is done on the device, no server needed.
 
-All fetching, processing and rendering is done on the device, no server needed.
+By default it automatically prints an update issue every morning at 7am and a full issue when the button is pushed.
 
 **🚨 Alpha: This project is under active development. It's likely to break at any time.**
 
@@ -19,6 +19,10 @@ All fetching, processing and rendering is done on the device, no server needed.
 ## Demo
 
 Demo images here.
+
+## About
+
+LocalPrinter can fetch updates from a Spotify playlist, receive messages on Telegram
 
 ## Installation
 
