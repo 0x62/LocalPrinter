@@ -15,11 +15,25 @@ IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by 
 
 Demo images here.
 
+## Installation
+
+Clone the repository, create a config file according to the below and run with `node index.js`. You'll likely want to use another tool to launch the printer at boot and restart it if it crashes.
+
 ## Configuration
 
 You need to create a `.env` file with the following options:
 
 ```
+# Required
+# =========
+
+# Serial port
+SERIAL_PORT = "/dev/serial0"
+
+# Time of day to print automatic issue
+ISSUE_TITLE_FULL = "THE DAILY 0x62"
+ISSUE_TITLE_UPDATE = "YOU'VE GOT MAIL"
+
 # Time of day to print automatic issue
 AUTO_ISSUE_TIME = "7:00"
 # Type of automatic issue
@@ -29,6 +43,9 @@ AUTO_ISSUE_TYPE = "update"
 
 # Type of issue to print when pushing button
 BUTTON_TYPE = "full"
+
+# Data Providers (provide all options to enable)
+# ===============================================
 
 # Monitor a playlist and print 3 new songs a day
 SPOTIFY_CLIENT_ID = ""
@@ -51,7 +68,17 @@ GUARDIAN_TOKEN = ""
 # Weather and rain/snow alerts
 OPENWEATHER_TOKEN = ""
 WEATHER_CITY = ""
+
+# Daily quote
+# Expects a CSV with quote, author (optional)
+# Will randomly pick unseen options until all are used and reset
+QUOTES_DB = "./quotes.csv"
 ```
+
+
+## Planned providers
+
+* Daily image (could be used for cross words, sudoku etc)
 
 ## Adding new modules
 
