@@ -1,6 +1,8 @@
 # LocalPrinter
 
-IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by Berg Little Printers. 
+IoT Pi printer based on the Cashino CSN-A2 receipt printer. Heavily inspired by Berg [Little Printers](https://nordprojects.co/projects/littleprinters/). 
+
+All fetching, processing and rendering is done on the device, no server needed.
 
 **🚨 Alpha: This project is under active development. It's likely to break at any time.**
 
@@ -23,6 +25,12 @@ Clone the repository, create a config file according to the below and run with `
 
 I also recommend installing Tailscale + SSH to make managing the printer remotely easier.
 
+## Hardware
+
+Hardware is heavily based on the [Adafruit IoT printer](https://learn.adafruit.com/pi-thermal-printer), with the addition of a 9V power supply for the printer (and stepped down to 5V for Pi).
+
+[Enable the serial port](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable/enabling-serial-console#option-2-enabling-via-raspi-config-1961278-5) and connect the data port on the printer to the Pi GND, GPIO14 and GPIO15. Connect the printer power to 9V power supply. You can actually power the printer off 5V if you need to, but the print quality is much better with more power.
+
 ## Configuration
 
 You need to create a `.env` file with the following options:
@@ -37,6 +45,9 @@ SERIAL_PORT = "/dev/serial0"
 # Time of day to print automatic issue
 ISSUE_TITLE_FULL = "THE DAILY 0x62"
 ISSUE_TITLE_UPDATE = "YOU'VE GOT MAIL"
+
+# Delete rendered issue after printing (`output/`)
+DELETE_AFTER_PRINT = true
 
 # Time of day to print automatic issue
 AUTO_ISSUE_TIME = "7:00"
