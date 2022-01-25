@@ -19,6 +19,8 @@ Demo images here.
 
 Clone the repository, create a config file according to the below and run with `node index.js`. You'll likely want to use another tool to launch the printer at boot and restart it if it crashes.
 
+I also recommend installing Tailscale + SSH to make managing the printer remotely easier.
+
 ## Configuration
 
 You need to create a `.env` file with the following options:
@@ -87,7 +89,3 @@ a set of `blocks` which render it. Then add the blocks required to the issue in 
 
 Real-time providers are also supported (see `providers/Messages` for an example Telegram integration), which
 can wake up and print immediately.
-
-## Other notes
-
-You can easily remotely manage the devices using Tailscale + SSH
