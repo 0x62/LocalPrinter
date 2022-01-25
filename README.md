@@ -36,7 +36,40 @@ I also recommend installing Tailscale + SSH to make managing the printer remotel
 
 ## Running
 
-Run with `node index.js`. You'll likely want to use another tool to launch the printer at boot and restart it if it crashes.
+Run with `node index.js`. 
+
+### Running as a service
+
+You can keep the printer running and launch at boot by creating a service:
+
+```
+sudo nano /lib/systemd/system/localprinter.service
+```
+
+You may need to change the `ExecStart` path below depending on where you cloned the repository.
+
+```
+[Unit]
+Description=localprinter
+Documentation=https://github.com/0x62/LocalPrinter
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/pi/LocalPrinter/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Reload and start the service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl start localprinter
+```
 
 ## Hardware
 
