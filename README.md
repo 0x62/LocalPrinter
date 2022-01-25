@@ -12,8 +12,8 @@ All fetching, processing and rendering is done on the device, no server needed.
 * Cashino [CSN-A2](https://www.alibaba.com/product-detail/CASHINO-58mm-Embedded-ticket-printer-CSN_60531714536.html) printer (alternatively [CSN-A2L](https://www.alibaba.com/product-detail/Cashino-CSN-A2-2inch-58mm-Kiosk_1600441215807.html?spm=a2700.galleryofferlist.normal_offer.d_title.658922e1AFb4oR))
 * 9V-5V step down ([example](https://www.ebay.co.uk/itm/193632397779?var=493943066064))
 * Momentary button with LED ([example](https://www.ebay.co.uk/itm/183415145654?var=690724911342))
-* 2.1mm DC panel mount
-* 9V 2A power supply
+* 2.1mm DC panel mount ([example](https://www.ebay.co.uk/itm/362281631986?var=631486269634))
+* 9V 2A power supply ([example](https://www.ebay.co.uk/itm/203296688898))
 * Wooden box
 
 ## Demo
@@ -70,8 +70,8 @@ AUTO_ISSUE_TYPE = "update"
 # Type of issue to print when pushing button
 BUTTON_TYPE = "full"
 
-# Data Providers (provide all options to enable)
-# ===============================================
+# Modules (provide all options to enable)
+# =======================================
 
 # Monitor a playlist and print 3 new songs a day
 SPOTIFY_CLIENT_ID = ""
@@ -102,7 +102,7 @@ QUOTES_DB = "./quotes.csv"
 ```
 
 
-## Missing providers
+## Missing modules
 
 I'd like to add these but I haven't had time yet. Pull requests welcome!
 
