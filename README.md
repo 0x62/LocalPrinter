@@ -21,6 +21,8 @@ Demo images here.
 * Momentary button with LED ([mine](https://www.ebay.co.uk/itm/183415145654))
 * 2.1mm DC panel mount ([mine](https://www.ebay.co.uk/itm/362281631986))
 * 9V 2A power supply ([mine](https://www.ebay.co.uk/itm/203296688898))
+* 4700uf capacitor ([mine](https://www.ebay.co.uk/itm/255081124842?var=555061255318))
+* Strip board, electrical wire & soldering iron
 * Wooden box
 
 ## 🧑‍💻 Prerequisites
