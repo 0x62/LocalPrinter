@@ -14,7 +14,7 @@ Demo images here.
 
 * Raspberri Pi Zero 2 W
 * Cashino thermal printer
-  * [CSN-A2](https://www.alibaba.com/product-detail/CASHINO-58mm-Embedded-ticket-printer-CSN_60531714536.html) (mine, you can also find this at UK/US suppliers under the name Adafruit Mini Thermal Printer but 2x the price)
+  * [CSN-A2](https://www.alibaba.com/product-detail/CASHINO-58mm-Embedded-ticket-printer-CSN_60531714536.html) (mine, you can also find this at UK/US suppliers under the name Adafruit Mini Thermal Printer but a lot cheaper to order a sample)
   * [CSN-A2L](https://www.alibaba.com/product-detail/Cashino-CSN-A2-2inch-58mm-Kiosk_1600441215807.html?spm=a2700.galleryofferlist.normal_offer.d_title.658922e1AFb4oR) (slightly smaller form factor)
   * [DB-486F](https://www.cashinotech.com/58mm-thermal-printer-control-board-db-486f_p57.html) (printer guts only)
 * 9V-5V step down ([mine](https://www.ebay.co.uk/itm/193632397779))
