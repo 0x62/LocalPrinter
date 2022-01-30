@@ -11,4 +11,8 @@ export default class OpenWeatherPlugin extends Plugin {
   async fetch({ updateOnly }) {
     
   }
+
+  render(issue) {
+    return []
+  }
 }

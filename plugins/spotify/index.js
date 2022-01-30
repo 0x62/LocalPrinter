@@ -140,5 +140,7 @@ export default class SpotifyPlugin extends Plugin {
         }
       })
     }
+
+    return blocks
   }
 }

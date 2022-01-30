@@ -52,7 +52,7 @@ export default class InstagramPlugin extends Plugin {
     }
   }
 
-  render() {
+  render(issue) {
     return [
       new Blocks.Photo(this.data.latestPost)
     ]

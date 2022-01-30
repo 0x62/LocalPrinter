@@ -11,4 +11,8 @@ export default class GuardianPlugin extends Plugin {
   async fetch() {
     
   }
+
+  render(issue) {
+    return []
+  }
 }
