@@ -115,7 +115,7 @@ export default class SpotifyPlugin extends Plugin {
 
     blocks.push(new Blocks.SpotifyHeader())
 
-    if (this.issue.updateOnly) {
+    if (issue.updateOnly) {
       // If update shows the new music for the day
       blocks.push(new Blocks.Subheader('NEW MUSIC FOR TODAY <3'))
       blocks.push(new Blocks.Spacer(15))
