@@ -5,21 +5,29 @@ import IssueGenerator from './IssueGenerator.js'
 // https://github.com/xseignard/thermalPrinter
 
 export default class LocalPrinter {
-  constructor(serialPort) {
-    this.generator = new IssueGenerator()
+  constructor({ deleteAfterPrint, issueTitle, schedule, button }) {
     this.printer = null
-    this.serialPort = serialPort
-
-    if (serialPort) {
-      console.log('[LocalPrinter] Waiting for serial port to be ready...')
-      this.serialPort.on('open', () => this.start())
-      this.serialPort.on('error', err => console.log(err))
-    } else {
-      console.log('[LocalPrinter] Serial port not provided, running in dev mode')
-      this.start()
+    this.config = {
+      deleteAfterPrint,
+      issueTitle,
+      schedule,
+      button
     }
 
+    this.generator = new IssueGenerator()
     this.generator.on('print', () => this._print())
+  }
+
+  connect(serialPort) {
+    console.log('[LocalPrinter] Waiting for serial port to be ready...')
+    this.serialPort = serialPort
+    this.serialPort.on('open', () => this.start())
+    this.serialPort.on('error', err => console.log(err))
+  }
+
+  addPlugin(plugin, opts) {
+    plugin.registerPrinter(this)
+    this.generator.addPlugin(plugin, opts)
   }
 
   async start() {
@@ -64,3 +72,4 @@ export default class LocalPrinter {
     })
   }
 }
+

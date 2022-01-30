@@ -1,5 +1,7 @@
 import SpotifyClient from 'spotify-web-api-node'
-import { Plugin } from '../../core/index.js'
+import SpotifyHeader from './blocks/Header.js'
+import SpotifyTrack from './blocks/Track.js'
+import { Plugin, Blocks } from '../../core/index.js'
 
 const spotify = new SpotifyClient({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -104,6 +106,39 @@ export default class SpotifyPlugin extends Plugin {
     this.data = {
       tracks,
       newTracks,
+    }
+  }
+
+  render(issue) {
+    const blocks = []
+    const { tracks, newTracks } = this.data
+
+    blocks.push(new Blocks.SpotifyHeader())
+
+    if (this.issue.updateOnly) {
+      // If update shows the new music for the day
+      blocks.push(new Blocks.Subheader('NEW MUSIC FOR TODAY <3'))
+      blocks.push(new Blocks.Spacer(15))
+      newTracks.forEach((track, idx, arr) => {
+        blocks.push(new SpotifyTrack(track))
+        blocks.push(new Blocks.Spacer(15))
+        blocks.push(new Blocks.Divider('dashed'))
+        if (idx < arr.length - 1) {
+          blocks.push(new Blocks.Spacer(15))
+        }
+      })
+    } else {
+      // Otherwise shows the latest 5 added
+      blocks.push(new Blocks.Subheader('RECENTLY ADDED TO PLAYLIST'))
+      blocks.push(new Blocks.Spacer(15))
+      tracks.forEach((track, idx, arr) => {
+        blocks.push(new SpotifyTrack(track))
+        blocks.push(new Blocks.Spacer(15))
+        blocks.push(new Blocks.Divider('dashed'))
+        if (idx < arr.length - 1) {
+          blocks.push(new Blocks.Spacer(15))
+        }
+      })
     }
   }
 }

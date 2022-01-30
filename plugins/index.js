@@ -1,0 +1,6 @@
+export { default as InstagramPlugin } from './instagram/index.js'
+export { default as OpenWeatherPlugin } from './openweather/index.js'
+export { default as QuotePlugin } from './quote/index.js'
+export { default as SpotifyPlugin } from './spotify/index.js'
+export { default as TelegramPlugin } from './telegram/index.js'
+export { default as GuardianPlugin } from './theguardian/index.js'

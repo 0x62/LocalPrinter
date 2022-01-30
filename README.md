@@ -86,7 +86,7 @@ Connect the button to GPIOX, GPIOY, and the LED+ to GPIOZ (if applicable). A but
 
 ## ⚙️ Configuration
 
-You need to create a `.env` file with the following options:
+Copy the default `.env.example` to `.env` and configure the plugins as needed. Alternatively you can edit `index.js` and configure the LocalPrinter directly.
 
 ```
 # Required
@@ -116,7 +116,7 @@ AUTO_ISSUE_TYPE = "update"
 # Type of issue to print when pushing button
 BUTTON_TYPE = "full"
 
-# Modules (provide all options to enable)
+# Plugins (provide all options to enable)
 # =======================================
 
 # Monitor a playlist and print 3 new songs a day
@@ -158,7 +158,7 @@ There is also a special kind of issue used for real-time modules like the Telegr
 immediately after receiving an update. Unlike `full` or `update`, these issues do not increment the
 issue number, and don't include the header/footer.
 
-## Modules
+## Plugins
 
 ### 🎶 Spotify
 
@@ -194,7 +194,7 @@ this module will only be included if the forecast includes adverse conditions (e
 Print a daily motivation (or demotivational!) quote from a CSV database. This module could do with
 some TLC (probably should be connected to an API instead?).
 
-## Missing modules
+## Missing plugins
 
 I'd like to add these but I haven't had time yet. Ideally for calendar and reminders it would
 integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull requests welcome!
@@ -203,10 +203,10 @@ integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull
 * Calendar providers
 * Todo/reminders providers
 
-## Adding new modules
+## Adding new plugins
 
-You can easily create your own module by creating a `provider`, which fetches the data required, and
-a set of `blocks` which render it. Then add the blocks required to the issue in `IssueGenerator._createBlocks`.
+Add a new folder to the `plugins` directory that extends the core `Plugin` class. Override the
+`fetch()` and `render()` functions to fetch the data you need, and return the design blocks to
+include in the issue.
 
-Real-time providers are also supported (see `providers/Messages` for an example Telegram integration), which
-can wake up and print immediately.
+Core blocks like spacers, dividers, headers are exported as `Blocks.Spacer` etc from `core/index.js`.

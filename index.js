@@ -2,16 +2,16 @@ import 'dotenv/config'
 import SerialPort from 'serialport'
 import LocalPrinter from './LocalPrinter.js'
 import {
-  InstagramPlugin
-  OpenWeatherPlugin
-  QuotePlugin
-  SpotifyPlugin
-  TelegramPlugin
+  InstagramPlugin,
+  OpenWeatherPlugin,
+  QuotePlugin,
+  SpotifyPlugin,
+  TelegramPlugin,
   GuardianPlugin } from './plugins/index.js'
 
 // Ceate a new LocalPrinter
 const printer = new LocalPrinter({
-  deleteAfterPrint: process.env.DELETE_AFTER_PRINT
+  deleteAfterPrint: process.env.DELETE_AFTER_PRINT,
   issueTitle: {
     full: process.env.ISSUE_TITLE_FULL,
     update: process.env.ISSUE_TITLE_UPDATE,
@@ -25,7 +25,7 @@ const printer = new LocalPrinter({
   button: {
     pin: process.env.BUTTON_GPIO_PIN,
     ledPin: process.env.BUTTON_LED_GPIO_PIN,
-    issueType: process.env.BUTTON_ISSUE)TYPE
+    issueType: process.env.BUTTON_ISSUE_TYPE,
   },
 })
 
@@ -61,8 +61,8 @@ if (OPENWEATHER_TOKEN && WEATHER_CITY) {
 // Quotes
 // Print a daily motivation (or demotivational!) quote from a CSV database. This module could do with
 // some TLC (probably should be connected to an API instead?).
-const { QUOTE_ENABLED, QUOTE_IS_UPDATE } = process.env
-if (QUOTE_ENABLED) {
+const { QUOTES_ENABLED, QUOTE_IS_UPDATE } = process.env
+if (QUOTES_ENABLED) {
   printer.addPlugin(
     new QuotePlugin(),
     { priority: 1, printAlways: QUOTE_IS_UPDATE }
@@ -98,3 +98,8 @@ if (GUARDIAN_TOKEN) {
     { priority: 1 }
   )
 }
+
+
+// Start the printer
+printer.start()
+

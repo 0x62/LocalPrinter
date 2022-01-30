@@ -21,6 +21,10 @@ export default class Plugin extends EventEmitter {
     this.storage = storage
   }
 
+  registerPrinter(printer) {
+    this.printer = printer
+  }
+
   // Pass an array of items plus a function to pick ids, returns filtered array of unseen items
   filterSeenItems(items, pickerFn) {
     const ids = items.map(pickerFn)

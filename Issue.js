@@ -3,23 +3,24 @@ import pIteration from 'p-iteration'
 const { createCanvas, registerFont } = canvas
 const { forEachSeries } = pIteration
 
-registerFont('fonts/staatliches.ttf', { family: 'Staatliches' })
-registerFont('fonts/gloria-hallelujah.ttf', { family: 'Gloria Hallelujah' })
-registerFont('fonts/montserrat-extralight.ttf', { family: 'Montserrat', weight: 200 })
-registerFont('fonts/montserrat-light.ttf', { family: 'Montserrat', weight: 300 })
-registerFont('fonts/montserrat-regular.ttf', { family: 'Montserrat', weight: 400 })
-registerFont('fonts/montserrat-medium.ttf', { family: 'Montserrat', weight: 500 })
-registerFont('fonts/montserrat-semibold.ttf', { family: 'Montserrat', weight: 600 })
-registerFont('fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
-registerFont('fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
+registerFont('core/fonts/staatliches.ttf', { family: 'Staatliches' })
+registerFont('core/fonts/gloria-hallelujah.ttf', { family: 'Gloria Hallelujah' })
+registerFont('core/fonts/montserrat-extralight.ttf', { family: 'Montserrat', weight: 200 })
+registerFont('core/fonts/montserrat-light.ttf', { family: 'Montserrat', weight: 300 })
+registerFont('core/fonts/montserrat-regular.ttf', { family: 'Montserrat', weight: 400 })
+registerFont('core/fonts/montserrat-medium.ttf', { family: 'Montserrat', weight: 500 })
+registerFont('core/fonts/montserrat-semibold.ttf', { family: 'Montserrat', weight: 600 })
+registerFont('core/fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
+registerFont('core/fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
 
 export default class Issue {
-  constructor({ issueNo, issuedAt, updateOnly }) {
+  constructor({ issueNo, issuedAt, updateOnly, realtime }) {
     this.blocks = []
     this.height = 0
     this.issueNo = issueNo
     this.issuedAt = issuedAt
     this.updateOnly = updateOnly
+    this.realtime = realtime
   }
 
   addBlocks(...blocks) {

@@ -31,14 +31,14 @@ export default class Storage {
     return this.db.write()
   }
 
-  registerProvider(provider) {
-    const name = provider.constructor.name
+  registerPlugin(plugin) {
+    const name = plugin.constructor.name
     // this.db.data[`${name}.seenIds`] ||= []
     this.db.data[name] ||= {
       seenIds: []
     }
-    provider.registerStorage(this)
-    console.log(`[Storage] Registered provider ${name}`)
+    plugin.registerStorage(this)
+    console.log(`[Storage] Registered plugin ${name}`)
   }
 
   // setInitialIds(provider, ids = []) {

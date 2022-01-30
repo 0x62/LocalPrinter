@@ -1,4 +1,4 @@
-import { Plugin } from '../../core/index.js'
+import { Plugin, Blocks } from '../../core/index.js'
 
 export default class QuotePlugin extends Plugin {
   constructor(storage) {
@@ -9,5 +9,11 @@ export default class QuotePlugin extends Plugin {
 
   async fetch({ updateOnly }) {
     
+  }
+
+  render() {
+    return [
+      new Blocks.PosterText('The bad news is time flies. The good news is you’re the pilot.')
+    ]
   }
 }

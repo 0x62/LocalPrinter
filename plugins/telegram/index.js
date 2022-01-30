@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api'
-import { Plugin } from '../../core/index.js'
+import { Plugin, Blocks } from '../../core/index.js'
+import Message from './blocks/Message.js'
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 const ALLOWED_USERS = [1689019195]
@@ -77,5 +78,33 @@ export default class TelegramPlugin extends Plugin {
       bot.sendMessage(msg.chat.id, 'Got your message!')
       this.emit('update')
     })
+  }
+
+  render(issue) {
+    const blocks = []
+    const { messages, newMessages } = this.data
+
+    const addMessage = msg => {
+      if (msg.photo) {
+        blocks.push(new Blocks.Photo({ url: msg.photo }))
+      } else {
+        blocks.push(new Message(msg))
+      }
+    }
+
+    if (issue.updateOnly) {
+      // Show all unseen messages
+      mewMessages.forEach((message, idx) => {
+        addMessage(message)
+        if (idx < newMessages.length - 1) {
+          blocks.push(new Blocks.Spacer(15))
+        }
+      })
+    } else {
+      // Regular issue shows the last message received
+      addMessage(messages[0])
+    }
+
+    return blocks
   }
 }

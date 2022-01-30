@@ -1,5 +1,5 @@
 import moment from 'moment'
-import Block from '../Block.js'
+import { Block } from '../../../core/index.js'
 
 export default class BlockSpotifyHeader extends Block {
   constructor() {

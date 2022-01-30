@@ -1,4 +1,4 @@
-import { Plugin } from '../../core/index.js'
+import { Plugin, Blocks } from '../../core/index.js'
 
 // Note: This uses an undocumented Instagram API to fetch a surprisingly large amount of data in one
 // unauthenticated request. That said, it will inevitably break at some point.
@@ -50,5 +50,11 @@ export default class InstagramPlugin extends Plugin {
       latestPost,
       posts,
     }
+  }
+
+  render() {
+    return [
+      new Blocks.Photo(this.data.latestPost)
+    ]
   }
 }
