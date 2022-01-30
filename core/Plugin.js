@@ -4,7 +4,7 @@ import HttpClient from './HttpClient.js'
 
 const { forEach } = pIteration
 
-export default class Provider extends EventEmitter {
+export default class Plugin extends EventEmitter {
   constructor(httpConfig) {
     super()
 

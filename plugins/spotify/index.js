@@ -1,5 +1,5 @@
 import SpotifyClient from 'spotify-web-api-node'
-import Provider from '../Provider.js'
+import { Plugin } from '../../core/index.js'
 
 const spotify = new SpotifyClient({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -7,7 +7,7 @@ const spotify = new SpotifyClient({
 })
 
 // Fetch songs added to a playlist for wendy, if not seen before then print
-export default class SpotifyProvider extends Provider {
+export default class SpotifyPlugin extends Plugin {
   constructor() {
     super()
     this.showsToTrack = [
@@ -97,7 +97,6 @@ export default class SpotifyProvider extends Provider {
       tracks = tracks
         .sort((a, b) => new Date(b.added_at) - new Date(a.added_at))
         .slice(0, 3)
-
       // Also mark these as seen so they don't come up tomorrow
       this.markSeenOnCleanUp(tracks, ({ track }) => track.uri)
     }

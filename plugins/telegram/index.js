@@ -1,10 +1,10 @@
 import TelegramBot from 'node-telegram-bot-api'
-import Provider from '../Provider.js'
+import { Plugin } from '../../core/index.js'
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 const ALLOWED_USERS = [1689019195]
 
-class MessagesProvider extends Provider {
+export default class TelegramPlugin extends Plugin {
   constructor() {
     super()
     this.REALTIME = true
@@ -79,5 +79,3 @@ class MessagesProvider extends Provider {
     })
   }
 }
-
-export default MessagesProvider

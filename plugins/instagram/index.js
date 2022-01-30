@@ -1,9 +1,9 @@
-import Provider from '../Provider.js'
+import { Plugin } from '../../core/index.js'
 
 // Note: This uses an undocumented Instagram API to fetch a surprisingly large amount of data in one
 // unauthenticated request. That said, it will inevitably break at some point.
 
-export default class InstagramProvider extends Provider {
+export default class InstagramPlugin extends Plugin {
   constructor() {
     super({
       baseUrl: `https://www.instagram.com`,

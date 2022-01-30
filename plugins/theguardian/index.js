@@ -1,6 +1,6 @@
-import Provider from '../Provider.js'
+import { Plugin } from '../../core/index.js'
 
-export default class HeadlinesProvider extends Provider {
+export default class GuardianPlugin extends Plugin {
   constructor() {
     super({
       baseUrl: '',

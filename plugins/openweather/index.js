@@ -1,6 +1,6 @@
-import Provider from '../Provider.js'
+import { Plugin } from '../../core/index.js'
 
-export default class WeatherProvider extends Provider {
+export default class OpenWeatherPlugin extends Plugin {
   constructor() {
     super({
       baseUrl: '',
