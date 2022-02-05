@@ -159,7 +159,7 @@ There is also a special kind of issue used for real-time modules like the Telegr
 immediately after receiving an update. Unlike `full` or `update`, these issues do not increment the
 issue number, and don't include the header/footer.
 
-## Plugins
+## Core plugins
 
 ### 🎶 Spotify
 
@@ -195,19 +195,61 @@ this module will only be included if the forecast includes adverse conditions (e
 Print a daily motivation (or demotivational!) quote from a CSV database. This module could do with
 some TLC (probably should be connected to an API instead?).
 
-## Missing plugins
+## Missing core plugins
 
-I'd like to add these but I haven't had time yet. Ideally for calendar and reminders it would
-integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull requests welcome!
+I'd like to add these as core plugins but I haven't had time yet. Ideally for calendar and reminders
+it would integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull requests
+welcome!
 
+* Stocks and market activity
+* Crypto
 * Puzzles (cross words, sudoku etc)
 * Calendar providers
 * Todo/reminders providers
 
-## Adding new plugins
+## Creating 3rd-party plugins
+
+You can create your own plugins and blocks, then load them `printer.addPlugin(plugin, opts)`. Check
+out `index.js` for examples (used to load plugins based on env file).
 
 Add a new folder to the `plugins` directory that extends the core `Plugin` class. Override the
-`fetch()` and `render()` functions to fetch the data you need, and return the design blocks to
-include in the issue.
+`fetch()` and `render()` functions to fetch the data you need, and return an array of the blocks
+used to render.
+
+Create new blocks by extending the core `Block` class, and provide a `render()` function. Blocks
+have access to the canvas context with `this.ctx`, and the current Y position with `this.startPosY`.
+
+Your render function should return an object with one property, `endPosY`, which is the new Y
+position subsequent blocks should start at.
 
 Core blocks like spacers, dividers, headers are exported as `Blocks.Spacer` etc from `core/index.js`.
+
+### Making requests
+
+When calling `super()` in your plugin class, pass a `baseURL` (and optionally `headers`) to also
+create a HTTP client:
+
+```
+super({
+  baseUrl: `https://www.instagram.com`,
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'Cache-Control': 'max-age=0'
+  }
+})
+```
+
+This will expose the client as `this.http`, which you can use to make API requests easily.
+
+```
+async fetch({ updateOnly }) {
+  const data = await this.http.get(`/${process.env.INSTAGAM_USER}/?__a=1`)
+  // See Instagram plugin for examples...
+})
+```
+
+### Utility functions in blocks
+
+The `Block` base class exposes a few utility functions for drawing grayscale/dithered images,
+positioning text and loading remoate/local images. Check `core/Block.js` for details.
