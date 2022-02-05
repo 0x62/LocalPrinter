@@ -35,46 +35,11 @@ if (!process.env.DEV_MODE) {
   printer.connect(port)
 }
 
-// Register some plugins (see plugins directory for examples
-// Instagram
-// Prints out your latest post the following morning
-const { INSTAGAM_USER } = process.env
-if (INSTAGAM_USER) {
+// News headlines
+const { NEWSAPI_TOKEN } = process.env
+if (NEWSAPI_TOKEN) {
   printer.addPlugin(
-    new InstagramPlugin(INSTAGAM_USER),
-    { priority: 1 }
-  )
-}
-
-// OpenWeather
-// In full issues this module will print the daily forcast and any weather alerts. In update issues,
-// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
-// or hail)
-const { OPENWEATHER_TOKEN, WEATHER_CITY } = process.env
-if (OPENWEATHER_TOKEN && WEATHER_CITY) {
-  printer.addPlugin(
-    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_CITY),
-    { priority: 1 }
-  )
-}
-
-// Quotes
-// Print a daily motivation (or demotivational!) quote from a CSV database. This module could do with
-// some TLC (probably should be connected to an API instead?).
-const { QUOTES_ENABLED, QUOTE_IS_UPDATE } = process.env
-if (QUOTES_ENABLED) {
-  printer.addPlugin(
-    new QuotePlugin(),
-    { priority: 1, printAlways: QUOTE_IS_UPDATE }
-  )
-}
-
-// Spotify
-// Monitor a Spotify playlist for changes, and include new songs in update issues
-const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST } = process.env
-if (SPOTIFY_CLIENT_ID && SPOTIFY_SECRET && SPOTIFY_PLAYLIST) {
-  printer.addPlugin(
-    new SpotifyPlugin(SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST),
+    new NewsPlugin(NEWSAPI_TOKEN),
     { priority: 1 }
   )
 }
@@ -89,14 +54,52 @@ if (TELEGRAM_TOKEN) {
   )
 }
 
-// News headlines
-const { NEWSAPI_TOKEN } = process.env
-if (NEWSAPI_TOKEN) {
+// OpenWeather
+// In full issues this module will print the daily forcast and any weather alerts. In update issues,
+// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
+// or hail)
+const { OPENWEATHER_TOKEN, WEATHER_CITY } = process.env
+if (OPENWEATHER_TOKEN && WEATHER_CITY) {
   printer.addPlugin(
-    new NewsPlugin(NEWSAPI_TOKEN),
-    { priority: 1 }
+    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_CITY),
+    { priority: 2 }
   )
 }
+
+// Spotify
+// Monitor a Spotify playlist for changes, and include new songs in update issues
+const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST } = process.env
+if (SPOTIFY_CLIENT_ID && SPOTIFY_SECRET && SPOTIFY_PLAYLIST) {
+  printer.addPlugin(
+    new SpotifyPlugin(SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST),
+    { priority: 3 }
+  )
+}
+
+
+// Register some plugins (see plugins directory for examples
+// Instagram
+// Prints out your latest post the following morning
+const { INSTAGAM_USER } = process.env
+if (INSTAGAM_USER) {
+  printer.addPlugin(
+    new InstagramPlugin(INSTAGAM_USER),
+    { priority: 3 }
+  )
+}
+
+
+// Quotes
+// Print a daily motivation (or demotivational!) quote from a CSV database. This module could do with
+// some TLC (probably should be connected to an API instead?).
+const { QUOTES_ENABLED, QUOTE_IS_UPDATE } = process.env
+if (QUOTES_ENABLED) {
+  printer.addPlugin(
+    new QuotePlugin(),
+    { priority: 3, printAlways: QUOTE_IS_UPDATE }
+  )
+}
+
 
 const run = async () => {
   await printer.start()

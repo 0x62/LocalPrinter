@@ -1,7 +1,10 @@
 import NewsAPI from 'newsapi'
 import LeadPhoto from './blocks/LeadPhoto.js'
 import LeadHeadline from './blocks/LeadHeadline.js'
-import { Plugin } from '../../core/index.js'
+import LeadDescription from './blocks/LeadDescription.js'
+import Subheader from './blocks/Subheader.js'
+import MoreHeadlines from './blocks/MoreHeadlines.js'
+import { Plugin, Blocks } from '../../core/index.js'
 
 export default class NewsPlugin extends Plugin {
   constructor(apiKey) {
@@ -27,11 +30,18 @@ export default class NewsPlugin extends Plugin {
   }
 
   render(issue) {
-    const [article] = this.data.articles.filter(({ urlToImage }) => !!urlToImage)
+    const [article, ...otherHeadlines] = this.data.articles.filter(({ urlToImage }) => !!urlToImage)
+    const headlines = otherHeadlines.map(article => article.title.split(' - ')[0])
 
     return [
       new LeadPhoto(article.urlToImage),
-      new LeadHeadline(article)
+      new Blocks.Spacer(10),
+      new LeadHeadline(article),
+      new LeadDescription(article),
+      new Blocks.Spacer(30),
+      new Subheader(),
+      new Blocks.Spacer(30),
+      new MoreHeadlines(headlines)
       // new GuardianHeader()
     ]
   }

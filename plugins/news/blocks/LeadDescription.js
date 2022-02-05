@@ -1,6 +1,6 @@
 import { Block } from '../../../core/index.js'
 
-export default class BlockNewsLeadHeadline extends Block {
+export default class BlockNewsLeadDescription extends Block {
   constructor(article) {
     super()
     this.article = article
@@ -8,7 +8,7 @@ export default class BlockNewsLeadHeadline extends Block {
 
   _planLines(message) {
     // Calculate the width of a space
-    this.ctx.font = "36px Yeseva One"
+    this.ctx.font = "500 24px Montserrat"
     const { width: spaceWidth } = this.ctx.measureText(' ')
 
     // Calculate the width of each word
@@ -46,7 +46,7 @@ export default class BlockNewsLeadHeadline extends Block {
 
   _renderLine(yPos, contents) {
     // Calculate the width of a space
-    this.ctx.font = "36px Yeseva One"
+    this.ctx.font = "500 24px Montserrat"
     this.ctx.fillStyle = "#000000"
 
     const {
@@ -58,27 +58,18 @@ export default class BlockNewsLeadHeadline extends Block {
     this.ctx.fillText(contents, 20, yPos)
   }
 
-  _renderLineBackground(yPos, width) {
-    this.ctx.beginPath()
-    this.ctx.rect(10, yPos - 4, width - 10, 12)
-    this.ctx.fillStyle = "#d4d4d4"
-    this.ctx.closePath()
-    this.ctx.fill()
-  }
-
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
-    const [title] = this.article.title.split(' - ')
-    const lines = this._planLines(title)
+    const [description] = this.article.description.split(' - ')
+    const lines = this._planLines(description)
 
     const LINE_SPACING = 18
-    const LINE_HEIGHT = 33
+    const LINE_HEIGHT = 18
     let yPos = this.startPosY + 48
 
     for (let i = 0; i < lines.length; i++) {
       const { text, width } = lines[i]
-      this._renderLineBackground(yPos, width)
       this._renderLine(yPos, text)
       if (i < lines.length - 1) {
         yPos += LINE_HEIGHT + LINE_SPACING

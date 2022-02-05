@@ -1,14 +1,14 @@
 import { Block } from '../../../core/index.js'
 
-export default class BlockNewsLeadHeadline extends Block {
-  constructor(article) {
+export default class BlockNewsMoreHeadlines extends Block {
+  constructor(headlines) {
     super()
-    this.article = article
+    this.headlines = headlines
   }
 
   _planLines(message) {
     // Calculate the width of a space
-    this.ctx.font = "36px Yeseva One"
+    this.ctx.font = "500 22px Montserrat"
     const { width: spaceWidth } = this.ctx.measureText(' ')
 
     // Calculate the width of each word
@@ -25,7 +25,7 @@ export default class BlockNewsLeadHeadline extends Block {
       const { word, width } = words.shift()
       
       // If this word would make the line overflow move to next
-      if (curWidth + spaceWidth + width > 460) {
+      if (curWidth + spaceWidth + width > 445) {
         lines.push({ text: curLine, width: curWidth })
         curLine = ''
         curWidth = 0
@@ -46,7 +46,7 @@ export default class BlockNewsLeadHeadline extends Block {
 
   _renderLine(yPos, contents) {
     // Calculate the width of a space
-    this.ctx.font = "36px Yeseva One"
+    this.ctx.font = "500 22px Montserrat"
     this.ctx.fillStyle = "#000000"
 
     const {
@@ -55,13 +55,13 @@ export default class BlockNewsLeadHeadline extends Block {
     } = this.ctx.measureText(contents)
     const height = heightA + heightD
 
-    this.ctx.fillText(contents, 20, yPos)
+    this.ctx.fillText(contents, 45, yPos)
   }
 
-  _renderLineBackground(yPos, width) {
+  _renderBullet(yPos) {
+    const RADIUS = 5
     this.ctx.beginPath()
-    this.ctx.rect(10, yPos - 4, width - 10, 12)
-    this.ctx.fillStyle = "#d4d4d4"
+    this.ctx.arc(25, yPos, RADIUS, 0, 2 * Math.PI, false)
     this.ctx.closePath()
     this.ctx.fill()
   }
@@ -69,19 +69,25 @@ export default class BlockNewsLeadHeadline extends Block {
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
-    const [title] = this.article.title.split(' - ')
-    const lines = this._planLines(title)
+    const headlines = this.headlines.map(headline => this._planLines(headline)).slice(0, 3)
 
-    const LINE_SPACING = 18
-    const LINE_HEIGHT = 33
-    let yPos = this.startPosY + 48
+    const ITEM_SPACING = 46
+    const LINE_SPACING = 32
+    let yPos = this.startPosY + (LINE_SPACING / 2)
 
-    for (let i = 0; i < lines.length; i++) {
-      const { text, width } = lines[i]
-      this._renderLineBackground(yPos, width)
-      this._renderLine(yPos, text)
-      if (i < lines.length - 1) {
-        yPos += LINE_HEIGHT + LINE_SPACING
+    for (let i = 0; i < headlines.length; i++) {
+      const lines = headlines[i]
+      // For each headline also print a bullet
+      this._renderBullet(yPos - 8)
+      for (let j = 0; j < lines.length; j++) {
+        const { text, width } = lines[j]
+        this._renderLine(yPos, text)
+        if (j < lines.length - 1) {
+          yPos += LINE_SPACING
+        }
+      }
+      if (i < headlines.length - 1) {
+        yPos += ITEM_SPACING
       }
     }
 

@@ -144,9 +144,12 @@ export default class IssueGenerator extends EventEmitter {
     if (!this.issue.realtime) {
       blocks = [
         new Blocks.Header(this.config.issueTitle),
-        new Blocks.Spacer(40),
+        new Blocks.Spacer(20),
       ]
     }
+
+    // Sort plugins according to priority
+    plugins.sort(([, aOpts], [, bOpts]) => aOpts.priority - bOpts.priority)
 
     // Loop through the data plugins with fresh content and add required blocks
     for (let i = 0; i < plugins.length; i++) {

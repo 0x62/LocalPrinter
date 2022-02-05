@@ -12,6 +12,7 @@ registerFont('core/fonts/montserrat-medium.ttf', { family: 'Montserrat', weight:
 registerFont('core/fonts/montserrat-semibold.ttf', { family: 'Montserrat', weight: 600 })
 registerFont('core/fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
 registerFont('core/fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
+registerFont('core/fonts/yesevaone.ttf', { family: 'Yeseva One' })
 
 export default class Issue {
   constructor({ issueNo, issuedAt, updateOnly, realtime }) {
