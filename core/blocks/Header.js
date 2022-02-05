@@ -11,18 +11,19 @@ export default class BlockHeader extends Block {
   // this.canvas, this.ctx, this.startPosY
   render() {
     // Circle in middle
-    const WIDTH = 95
-    const HEIGHT = 63
+    const WIDTH = 85
+    const HEIGHT = 60
     this.ctx.beginPath()
     this.ctx.rect((500 / 2) - (WIDTH / 2), 30, WIDTH, HEIGHT)
     this.ctx.fillStyle = "black"
+    this.ctx.closePath()
     this.ctx.fill()
 
     // Issue number
-    this.ctx.font = "600 42px Montserrat"
+    this.ctx.font = "600 32px Montserrat"
     this.ctx.fillStyle = "white"
     let text = this.issue.issueNo + ''
-    this._fillTextCentered(text, 44 + HEIGHT / 2)
+    this._fillTextCentered(text, 40 + HEIGHT / 2)
 
     // Issue date
     this.ctx.fillStyle = "black"
@@ -30,27 +31,19 @@ export default class BlockHeader extends Block {
     text = moment(this.issue.issuedAt).format('MMMM Do YYYY, hA').toUpperCase();
     this._fillTextCentered(text, 130)
 
-    // Line above issue title
-    this.ctx.strokeStyle = "black"
-    this.ctx.lineWidth = 2
+    // Issue title background
     this.ctx.beginPath()
-    this.ctx.moveTo(0, 155)
-    this.ctx.lineTo(500, 155)
+    this.ctx.rect(0, 155, 500, 65)
+    this.ctx.fillStyle = "black"
     this.ctx.closePath()
-    this.ctx.stroke()
+    this.ctx.fill()
 
     // Issue title
+    this.ctx.fillStyle = "white"
     this.ctx.font = "800 28px Montserrat";
     text = this.issue.updateOnly ? this.issueTitle.update : this.issueTitle.full
-    this._fillTextCentered(text, 185)
+    this._fillTextCentered(text, 195)
 
-    // Line below
-    this.ctx.beginPath()
-    this.ctx.moveTo(0, 195)
-    this.ctx.lineTo(500, 195)
-    this.ctx.closePath()
-    this.ctx.stroke()
-
-    return { endPosY: this.startPosY + 200 }
+    return { endPosY: this.startPosY + 220 }
   }
 }

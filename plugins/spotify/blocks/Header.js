@@ -11,7 +11,7 @@ export default class BlockSpotifyHeader extends Block {
   async render() {
     // Line at the top
     this.ctx.strokeStyle = "black"
-    this.ctx.lineWidth = 5
+    this.ctx.lineWidth = 3
     this.ctx.beginPath()
     this.ctx.moveTo(0, this.startPosY)
     this.ctx.lineTo(500, this.startPosY)
@@ -24,6 +24,7 @@ export default class BlockSpotifyHeader extends Block {
     const SPACING = 10
     this.ctx.lineWidth = 2
 
+    this.ctx.strokeStyle = "#737373"
     for (let i = 0; i < NUMBER_OF_STRIPES; i++) {
       this.ctx.beginPath()
       const startX = (i * SPACING) - (BG_HEIGHT)

@@ -143,8 +143,7 @@ export default class IssueGenerator extends EventEmitter {
 
     if (!this.issue.realtime) {
       blocks = [
-        new Blocks.Header(this.config.issueTitle),
-        new Blocks.Spacer(20),
+        new Blocks.Header(this.config.issueTitle)
       ]
     }
 
