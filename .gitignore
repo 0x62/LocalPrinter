@@ -3,4 +3,3 @@
 node_modules
 output/*
 !output/.gitkeep
-db.json

@@ -79,10 +79,10 @@ export default class BlockMessage extends Block {
   async render() {
     // Load the assets for the render
     const [frameX, frameY, title, postmark] = await Promise.all([
-      this._loadImage('img/message-frame-x.png'),
-      this._loadImage('img/message-frame-y.png'),
-      this._loadImage('img/message-title.png'),
-      this._loadImage('img/message-postmark.png'),
+      this._loadImage('plugins/telegram/img/message-frame-x.png'),
+      this._loadImage('plugins/telegram/img/message-frame-y.png'),
+      this._loadImage('plugins/telegram/img/message-title.png'),
+      this._loadImage('plugins/telegram/img/message-postmark.png'),
     ])
 
     // Message theory

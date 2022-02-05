@@ -113,7 +113,7 @@ export default class SpotifyPlugin extends Plugin {
     const blocks = []
     const { tracks, newTracks } = this.data
 
-    blocks.push(new Blocks.SpotifyHeader())
+    blocks.push(new SpotifyHeader())
 
     if (issue.updateOnly) {
       // If update shows the new music for the day

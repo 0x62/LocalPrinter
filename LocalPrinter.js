@@ -5,7 +5,7 @@ import IssueGenerator from './IssueGenerator.js'
 // https://github.com/xseignard/thermalPrinter
 
 export default class LocalPrinter {
-  constructor({ deleteAfterPrint, issueTitle, schedule, button }) {
+  constructor({ deleteAfterPrint, issueTitle, schedule = [], button }) {
     this.printer = null
     this.config = {
       deleteAfterPrint,
@@ -16,6 +16,8 @@ export default class LocalPrinter {
 
     this.generator = new IssueGenerator()
     this.generator.on('print', () => this._print())
+
+    this.setSchedule(schedule)
   }
 
   connect(serialPort) {
@@ -30,6 +32,20 @@ export default class LocalPrinter {
     this.generator.addPlugin(plugin, opts)
   }
 
+  clearSchedule() {
+    this.config.schedule
+      .filter(({ task }) => !!task)
+      .forEach(item => item.task.destroy())
+  }
+
+  setSchedule(issues) {
+    this.clearSchedule()
+    this.config.schedule = issues.map(({ pattern, issueType }) => {
+      const task = cron.schedule(pattern, () => this.createIssue(issueType))
+      return { pattern, issueType, task }
+    })
+  }
+
   async start() {
     console.log('[LocalPrinter] Starting...')
     
@@ -40,36 +56,40 @@ export default class LocalPrinter {
 
     await this.generator.initialize()
 
-    // Create an update issue every day at 7am
-    cron.schedule('0 7 * * *', this._createUpdateIssue.bind(this))
-    console.log('[LocalPrinter] Running, next issue will be generated at 7:00am')
+    console.log('[LocalPrinter] Running')
+    console.log(this.config.schedule.map(({ pattern, issueType }) => `  - ${issueType} issue at ${pattern}`).join('\n'))
+  }
+
+  async createIssue(type = 'full') {
+    if (type === 'full') {
+      await this.generator.createIssue()
+    } else if (type === 'update') {
+      await this.generator.createUpdateIssue()
+    }
   }
 
   // Handle GPIO for main button pushed, should create a full issue
   async buttonPushed() {
-    await this._createIssue()
+    await this.createIssue('full')
   }
 
-  async _createUpdateIssue() {
-    console.log('[LocalPrinter] Creating update issue')
-    await this.generator.createUpdateIssue()
-  }
+  _actuallyPrint(filename) {
+    return new Promise((r, j) => {
+      if (!this.printer) {
+        console.log(`[LocalPrinter] Printer not connected, written to file: output/${filename}`)
+        return r()
+      }
 
-  async _createIssue() {
-    console.log('[LocalPrinter] Creating issue')
-    await this.generator.createIssue()
-  }
-
-  _print() {
-    if (!this.printer) {
-      console.log('this.printer = null')
-      return
-    }
-
-    console.log('[LocalPrinter] Printing...')
-    this.printer.printImage('./output/issue.png').print(() => {
-      console.log('[LocalPrinter] Print completed')
+      console.log('[LocalPrinter] Printing...')
+      this.printer.printImage(`./output/${filename}`).print(r)
     })
+  }
+
+  // Emitted by generator once file is ready
+  async _print(filename) {
+    await this._actuallyPrint(filename)
+    console.log('[LocalPrinter] Print completed')
+    // Do any more cleanup
   }
 }
 

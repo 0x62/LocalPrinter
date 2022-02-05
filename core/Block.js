@@ -29,11 +29,31 @@ export default class Block {
     return loadImage(src)
   }
 
+  // Draw an image with dithered effect
   _drawDitheredImage(img, posX, posY, width, height) {
     this.ctx.drawImage(img, posX, posY, width, height)
     const imgData = this.ctx.getImageData(posX, posY, width, height)
     const dithered = dither.atkinson(imgData)
     this.ctx.putImageData(dithered, posX, posY)
+  }
+
+  // Draw a grayscale image
+  _drawGsImage(img, posX, posY, width, height) {
+    this.ctx.drawImage(img, posX, posY, width, height)
+    const imgData = this.ctx.getImageData(posX, posY, width, height)
+    this._convertToGs(imgData)
+    this.ctx.putImageData(imgData, posX, posY);
+  }
+
+  _convertToGs(imgData) {
+    const pixels = imgData.data
+    for (let i = 0; i < pixels.length; i += 4) {
+      // https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale
+      const lightness = 0.2126 * pixels[i] + 0.715 * pixels[i+1] + 0.0722 * pixels[i+2];
+      pixels[i] = lightness;
+      pixels[i + 1] = lightness;
+      pixels[i + 2] = lightness;
+    }
   }
 
   _fillTextFromTopLeft(text, posX, posY) {

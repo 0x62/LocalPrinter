@@ -16,7 +16,7 @@ export default class BlockPhoto extends Block {
   async render() {
     const [image, frame] = await Promise.all([
       this._loadRemoteImage(this.url),
-      this._loadImage('img/photo-frame.png')
+      this._loadImage('core/img/photo-frame.png')
     ])
 
     // Create a new canvas so we can center the image and crop to square
@@ -30,8 +30,8 @@ export default class BlockPhoto extends Block {
     slotCtx.drawImage(image, 0, 0, image.width, image.height, shiftX, shiftY, image.width * ratio, image.height * ratio)
 
     const imgData = slotCtx.getImageData(0, 0, 410, 410)
-    const dithered = dither.atkinson(imgData)
-    this.ctx.putImageData(dithered, 45, this.startPosY + 45)
+    this._convertToGs(imgData)
+    this.ctx.putImageData(imgData, 45, this.startPosY + 45)
 
     this.ctx.drawImage(frame, 0, this.startPosY, 500, 500)
 

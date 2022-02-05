@@ -38,7 +38,7 @@ export default class BlockSpotifyHeader extends Block {
     }
 
     // Spotify logo
-    const logo = await this._loadImage('img/spotify.png')
+    const logo = await this._loadImage('plugins/spotify/img/logo.png')
     this.ctx.drawImage(logo, 250 - 80, this.startPosY + 12, 160, 57)
 
     return { endPosY: this.startPosY + BG_HEIGHT }

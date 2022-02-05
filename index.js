@@ -17,11 +17,11 @@ const printer = new LocalPrinter({
     update: process.env.ISSUE_TITLE_UPDATE,
     dateFmt: process.env.ISSUE_DATE_FMT,
   },
-  schedule: {
-    enabled: true,
-    issueType: process.env.AUTO_ISSUE_TYPE,
-    time: process.env.AUTO_ISSUE_TIME,
-  },
+  // Set a schedule for automatically printing isssues
+  schedule: [
+    // You can as many schedule entries as you'd like
+    { pattern: process.env.AUTO_ISSUE_SCHEDULE, issueType: process.env.AUTO_ISSUE_TYPE },
+  ],
   button: {
     pin: process.env.BUTTON_GPIO_PIN,
     ledPin: process.env.BUTTON_LED_GPIO_PIN,
@@ -99,7 +99,10 @@ if (GUARDIAN_TOKEN) {
   )
 }
 
+const run = async () => {
+  await printer.start()
+  await printer.createIssue('full')
+}
 
-// Start the printer
-printer.start()
+run()
 

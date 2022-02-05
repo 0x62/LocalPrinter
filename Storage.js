@@ -28,7 +28,17 @@ export default class Storage {
   }
 
   async write() {
-    return this.db.write()
+    await this.db.write()
+    console.log(`[Storage] Written to file`)
+  }
+
+  get nextIssueNo() {
+    return this.db.data.nextIssueNo
+  }
+
+  async incrementIssueNo() {
+    this.db.data.nextIssueNo += 1
+    await this.write()
   }
 
   registerPlugin(plugin) {
@@ -41,10 +51,6 @@ export default class Storage {
     console.log(`[Storage] Registered plugin ${name}`)
   }
 
-  // setInitialIds(provider, ids = []) {
-  //   this.db.data[`${provider}.seenIds`] = ids
-  // }
-
   unseenIds(provider, ids = []) {
     return ids.filter(id => {
       console.log(`[Storage.${provider}] Checking if ${id} has been seen`)
@@ -55,6 +61,7 @@ export default class Storage {
   addSeenIds(provider, ids = []) {
     // Prevent having duplicates saved
     const unseen = this.unseenIds(provider, ids)
+    console.log(`[Storage.${provider}] Marking as seen: ${unseen.join(', ')}`)
 
     this.db.data[provider].seenIds ||= []
     this.db.data[provider].seenIds = [

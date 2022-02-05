@@ -94,7 +94,7 @@ export default class TelegramPlugin extends Plugin {
 
     if (issue.updateOnly) {
       // Show all unseen messages
-      mewMessages.forEach((message, idx) => {
+      newMessages.forEach((message, idx) => {
         addMessage(message)
         if (idx < newMessages.length - 1) {
           blocks.push(new Blocks.Spacer(15))

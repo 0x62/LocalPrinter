@@ -24,16 +24,16 @@ export default class IssueGenerator extends EventEmitter {
       await storage.initialize()
     }
 
-    this.plugins.forEach(([plugin]) => {
+    this.plugins.forEach(([plugin], pluginIdx) => {
       const { name } = plugin.constructor
       storage.registerPlugin(plugin)
-      console.log(`[IssueGenerator] Added plugin ${name}`)
+      console.log(`[IssueGenerator] Registered plugin ${name}`)
 
       // Plugins can also have realtime events
       if (plugin.REALTIME) {
         console.log(`[IssueGenerator] ${name} has real-time support`)
         plugin.setup()
-        plugin.on('update', msg => this.createRealtimeIssue(plugin, msg))
+        plugin.on('update', msg => this.createRealtimeIssue(pluginIdx, msg))
       }
     })
   }
@@ -56,13 +56,15 @@ export default class IssueGenerator extends EventEmitter {
   }
 
   // Create a mini issue just to print out the message block
-  async createRealtimeIssue(plugin) {
+  async createRealtimeIssue(pluginIdx) {
+    const [plugin, opts] = this.plugins[pluginIdx]
     console.log(`[IssueGenerator] Printing event-driven issue from ${plugin.constructor.name}`)
 
     // Create the issue
-    this.issue = new Issue({ realtime: true, updateOnly: true })
+    const issueNo = storage.nextIssueNo
+    this.issue = new Issue({ issueNo, realtime: true, updateOnly: true })
 
-    const inIssue = [plugin]
+    const inIssue = [[plugin, opts]]
     const blocks = this._createBlocks(inIssue)
     
     this.issue.addBlocks(...blocks)
@@ -75,7 +77,7 @@ export default class IssueGenerator extends EventEmitter {
     console.log(`[IssueGenerator] Creating update issue`)
     // We also need to set some issue metadata like date & time, issue number
     // This should be stored in KV and updated
-    const issueNo = 23
+    const issueNo = storage.nextIssueNo
     const issuedAt = new Date()
 
     // Create the issue
@@ -100,7 +102,7 @@ export default class IssueGenerator extends EventEmitter {
 
     // We also need to set some issue metadata like date & time, issue number
     // This should be stored in KV and updated
-    const issueNo = 23
+    const issueNo = storage.nextIssueNo
     const issuedAt = new Date()
 
     // Create the issue
@@ -121,7 +123,7 @@ export default class IssueGenerator extends EventEmitter {
   }
 
   async renderToFile() {
-    const TEMP_FILE = 'output/issue.png'
+    const TEMP_FILE = `output/issue-${this.issue.issueNo}.png`
     const file = fs.createWriteStream(TEMP_FILE)
     const data = await this.issue.render()
     
@@ -132,7 +134,7 @@ export default class IssueGenerator extends EventEmitter {
     })
 
     console.log(`[IssueGenerator] Export complete`)
-    this.emit('print')
+    this.emit('print', TEMP_FILE)
   }
 
   _createBlocks(plugins) {
@@ -145,6 +147,8 @@ export default class IssueGenerator extends EventEmitter {
       ]
     }
 
+    console.log(plugins)
+
     // Loop through the data plugins with fresh content and add required blocks
     for (let i = 0; i < plugins.length; i++) {
       const [plugin] = plugins[i]
@@ -152,7 +156,7 @@ export default class IssueGenerator extends EventEmitter {
 
       blocks = [
         ...blocks,
-        ...plugin.render(),
+        ...plugin.render(this.issue),
         new Blocks.Spacer(40)
       ]
 
@@ -171,8 +175,10 @@ export default class IssueGenerator extends EventEmitter {
 
   // Mark data used as required
   async cleanUp(plugins) {
+    // Update the issue number
+    await storage.incrementIssueNo()
     // Clean up data from external providers
-    await forEach(plugins, ([plugin]) => provider.cleanUp())
+    await forEach(plugins, ([plugin]) => plugin.cleanUp())
     // Save state
     await storage.write()
   }

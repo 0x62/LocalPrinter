@@ -106,8 +106,9 @@ ISSUE_TITLE_FULL = "THE DAILY 0x62"
 ISSUE_TITLE_UPDATE = "YOU'VE GOT MAIL"
 ISSUE_DATE_FMT = "MMMM Do YYYY, hA"
 
-# Time of day to print automatic issue
-AUTO_ISSUE_TIME = "7:00"
+# Cron expression for when to automatically print issues
+# You can add additional schedules in index.js
+AUTO_ISSUE_SCHEDULE = "0 7 * * *" # Every day at 7am
 # Type of automatic issue
 # update = only print if there are updates
 # full = print last update from all modules
