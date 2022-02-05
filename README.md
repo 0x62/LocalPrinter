@@ -254,8 +254,9 @@ export default class MyAwesomePlugin extends Plugin {
     const data = await this.http.get(`/items`)
     const allItems = data.items
 
-    // Optional: Helper functions to filter seen items, and mark unseen as seen in persisted storage
-    // once the issue has been printed. Provide an array and a picker function to get the unique ID.
+    // Optional: Helper functions to filter seen items, and mark unseen as seen in persisted
+    // storage once the issue has been printed. Provide an array and a picker function to 
+    // get the unique ID.
     const freshItems = this.filterSeenItems(allItems, item => item.id)
     this.markSeenOnCleanUp(freshItems, item => item.id)
 
