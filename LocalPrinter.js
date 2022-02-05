@@ -14,8 +14,8 @@ export default class LocalPrinter {
       button
     }
 
-    this.generator = new IssueGenerator()
-    this.generator.on('print', () => this._print())
+    this.generator = new IssueGenerator(this.config)
+    this.generator.on('print', (filename) => this._print(filename))
 
     this.setSchedule(schedule)
   }
@@ -76,12 +76,12 @@ export default class LocalPrinter {
   _actuallyPrint(filename) {
     return new Promise((r, j) => {
       if (!this.printer) {
-        console.log(`[LocalPrinter] Printer not connected, written to file: output/${filename}`)
+        console.log(`[LocalPrinter] Printer not connected, written to file: ${filename}`)
         return r()
       }
 
       console.log('[LocalPrinter] Printing...')
-      this.printer.printImage(`./output/${filename}`).print(r)
+      this.printer.printImage(filename).print(r)
     })
   }
 

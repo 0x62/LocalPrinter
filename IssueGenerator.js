@@ -9,9 +9,10 @@ const { forEach } = pIteration
 const storage = new Storage('db.json')
 
 export default class IssueGenerator extends EventEmitter {
-  constructor() {
+  constructor(config) {
     super()
     this.issue = null
+    this.config = config
     this.plugins = []
   }
 
@@ -142,12 +143,10 @@ export default class IssueGenerator extends EventEmitter {
 
     if (!this.issue.realtime) {
       blocks = [
-        new Blocks.Header(),
+        new Blocks.Header(this.config.issueTitle),
         new Blocks.Spacer(40),
       ]
     }
-
-    console.log(plugins)
 
     // Loop through the data plugins with fresh content and add required blocks
     for (let i = 0; i < plugins.length; i++) {

@@ -2,8 +2,9 @@ import moment from 'moment'
 import Block from '../Block.js'
 
 export default class BlockHeader extends Block {
-  constructor() {
+  constructor(issueTitle) {
     super()
+    this.issueTitle = issueTitle
   }
 
   // Render the current block to the canvas with
@@ -40,7 +41,7 @@ export default class BlockHeader extends Block {
 
     // Issue title
     this.ctx.font = "800 28px Montserrat";
-    text = this.issue.updateOnly ? 'MORNING UPDATE' : 'THE DAILY WENDY'
+    text = this.issue.updateOnly ? this.issueTitle.update : this.issueTitle.full
     this._fillTextCentered(text, 185)
 
     // Line below

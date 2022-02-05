@@ -5,10 +5,11 @@ import Block from '../Block.js'
 const { createCanvas } = canvas
 
 export default class BlockPhoto extends Block {
-  constructor({ url, caption }) {
+  constructor({ url, caption, framed = false }) {
     super()
     this.url = url
     this.caption = caption
+    this.framed = framed
   }
 
   // Render the current block to the canvas with
@@ -19,21 +20,26 @@ export default class BlockPhoto extends Block {
       this._loadImage('core/img/photo-frame.png')
     ])
 
+    const SIZE = this.framed ? 410 : 500
+    const FRAME_OFFSET = this.framed ? 45 : 0
+
     // Create a new canvas so we can center the image and crop to square
-    const slot = createCanvas(410, 410)
+    const slot = createCanvas(SIZE, SIZE)
     const slotCtx = slot.getContext('2d')
-    const hRatio = 410 / image.width
-    const vRatio = 410 / image.width
+    const hRatio = SIZE / image.width
+    const vRatio = SIZE / image.width
     const ratio = Math.min(hRatio, vRatio)
-    const shiftX = (410 - image.width*ratio) / 2
-    const shiftY = (410 - image.height*ratio) / 2
+    const shiftX = (SIZE - image.width*ratio) / 2
+    const shiftY = (SIZE - image.height*ratio) / 2
     slotCtx.drawImage(image, 0, 0, image.width, image.height, shiftX, shiftY, image.width * ratio, image.height * ratio)
 
-    const imgData = slotCtx.getImageData(0, 0, 410, 410)
+    const imgData = slotCtx.getImageData(0, 0, SIZE, SIZE)
     this._convertToGs(imgData)
-    this.ctx.putImageData(imgData, 45, this.startPosY + 45)
+    this.ctx.putImageData(imgData, FRAME_OFFSET, this.startPosY + FRAME_OFFSET)
 
-    this.ctx.drawImage(frame, 0, this.startPosY, 500, 500)
+    if (this.framed) {
+      this.ctx.drawImage(frame, 0, this.startPosY, 500, 500)
+    }
 
     return { endPosY: this.startPosY + 500 }
   }

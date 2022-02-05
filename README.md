@@ -207,7 +207,7 @@ welcome!
 * Calendar providers
 * Todo/reminders providers
 
-## Creating 3rd-party plugins
+## 🎛 Creating 3rd-party plugins
 
 You can create your own plugins and blocks, then load them `printer.addPlugin(plugin, opts)`. Check
 out `index.js` for examples (used to load plugins based on env file).
@@ -285,7 +285,7 @@ export default class MyAwesomePlugin extends Plugin {
 
 ### Making requests
 
-When calling `super()` in your plugin class, pass a `baseURL` (and optionally `headers`) to also
+When calling `super()` in your plugin class, pass a `baseUrl` (and optionally `headers`) to also
 create a HTTP client:
 
 ```

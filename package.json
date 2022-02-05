@@ -24,6 +24,7 @@
     "dotenv": "^14.2.0",
     "lowdb": "^3.0.0",
     "moment": "^2.29.1",
+    "newsapi": "^2.4.1",
     "node-cron": "^3.0.0",
     "node-telegram-bot-api": "^0.56.0",
     "p-iteration": "^1.1.8",

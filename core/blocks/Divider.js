@@ -21,6 +21,7 @@ export default class BlockDivider extends Block {
     this.ctx.lineTo(500, this.startPosY)
     this.ctx.closePath()
     this.ctx.stroke()
+    this.ctx.setLineDash([])
 
     return { endPosY: this.startPosY + 2 }
   }

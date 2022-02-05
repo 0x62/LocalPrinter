@@ -7,7 +7,7 @@ import {
   QuotePlugin,
   SpotifyPlugin,
   TelegramPlugin,
-  GuardianPlugin } from './plugins/index.js'
+  NewsPlugin } from './plugins/index.js'
 
 // Ceate a new LocalPrinter
 const printer = new LocalPrinter({
@@ -89,12 +89,11 @@ if (TELEGRAM_TOKEN) {
   )
 }
 
-// Telegram
-// Prints out messages and images received to a Telegram bot
-const { GUARDIAN_TOKEN } = process.env
-if (GUARDIAN_TOKEN) {
+// News headlines
+const { NEWSAPI_TOKEN } = process.env
+if (NEWSAPI_TOKEN) {
   printer.addPlugin(
-    new GuardianPlugin(GUARDIAN_TOKEN),
+    new NewsPlugin(NEWSAPI_TOKEN),
     { priority: 1 }
   )
 }
