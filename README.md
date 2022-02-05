@@ -224,6 +224,64 @@ position subsequent blocks should start at.
 
 Core blocks like spacers, dividers, headers are exported as `Blocks.Spacer` etc from `core/index.js`.
 
+### Plugin boilerplate
+
+Here is a very basic plugin which fetches some data from an API, checks if it's been seen before
+and prints it in updates:
+
+```
+import { Plugin, Blocks } from '../../core/index.js'
+
+export default class MyAwesomePlugin extends Plugin {
+  constructor() {
+    super({
+      baseUrl: `https://myapi.com`,
+    })
+  }
+
+  get hasFreshContent() {
+    // Signal your plugin has fresh content (will be included in update issues)
+    return this.data.freshItems?.length > 0
+  }
+
+  get hasContent() {
+    // Signal your plugin has new or stale content (will be included in full issues)
+    return this.data.allItems?.length > 0
+  }
+
+  async fetch(issue) {
+    // Fetch some content
+    const data = await this.http.get(`/items`)
+    const allItems = data.items
+
+    // Optional: Helper functions to filter seen items, and mark unseen as seen in persisted storage
+    // once the issue has been printed. Provide an array and a picker function to get the unique ID.
+    const freshItems = this.filterSeenItems(allItems, item => item.id)
+    this.markSeenOnCleanUp(freshItems, item => item.id)
+
+    this.data = {
+      allItems,
+      freshItems,
+    }
+  }
+
+  render(issue) {
+    // Print different blocks depending on the issue type
+
+    // If it's an update print all fresh items
+    if (issue.updateOnly) {
+      return this.data.freshItems.map(item => new Blocks.PosterText(item.text))
+    }
+
+    // Otherwise print latest item
+    const [item] = this.data.allItems
+    return [
+      new Blocks.PosterText(item.text)
+    ]
+  }
+}
+```
+
 ### Making requests
 
 When calling `super()` in your plugin class, pass a `baseURL` (and optionally `headers`) to also
@@ -253,3 +311,9 @@ async fetch({ updateOnly }) {
 
 The `Block` base class exposes a few utility functions for drawing grayscale/dithered images,
 positioning text and loading remoate/local images. Check `core/Block.js` for details.
+
+
+### Submit your plugin to core
+
+If you've created a cool plugin and would like it included in this repository please open a pull
+request with usage instructions.
