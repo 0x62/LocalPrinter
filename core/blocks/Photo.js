@@ -28,7 +28,7 @@ export default class BlockPhoto extends Block {
     const slotCtx = slot.getContext('2d')
     const hRatio = SIZE / image.width
     const vRatio = SIZE / image.width
-    const ratio = Math.min(hRatio, vRatio)
+    const ratio = Math.max(hRatio, vRatio)
     const shiftX = (SIZE - image.width*ratio) / 2
     const shiftY = (SIZE - image.height*ratio) / 2
     slotCtx.drawImage(image, 0, 0, image.width, image.height, shiftX, shiftY, image.width * ratio, image.height * ratio)

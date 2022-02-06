@@ -13,16 +13,15 @@ export default class NewsPlugin extends Plugin {
   }
 
   get hasFreshContent() {
-    return true
+    return this.data.articles.length > 0
   }
 
   get hasContent() {
-    return true
+    return this.data.articles.length > 0
   }
 
   async fetch() {
     const { articles } = await this.api.v2.topHeadlines({ country: 'gb' })
-    console.log(articles)
 
     this.data = {
       articles

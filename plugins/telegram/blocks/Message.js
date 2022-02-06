@@ -101,7 +101,7 @@ export default class BlockMessage extends Block {
     this.ctx.drawImage(postmark, 210, this.startPosY + 15, 300, 100)
 
     // Draw title image (Wendy Mail)
-    // this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
+    this.ctx.drawImage(title, 15, this.startPosY + 15, 252, 77)
 
     // Sender information/metadata
     this.ctx.fillStyle = "black"
