@@ -141,9 +141,9 @@ export default class TelegramPlugin extends Plugin {
       blocks = newMessages.map((message, idx) => {
         const toAdd = [getBlock(message)]
 
-        this.onCleanUp(() => {
-          this._sendReply([ ...toAdd ], message)
-        })
+        // this.onCleanUp(() => {
+        //   this._sendReply([getBlock(message)], message)
+        // })
 
         if (idx < newMessages.length - 1) {
           toAdd.push(new Blocks.Spacer(15))
