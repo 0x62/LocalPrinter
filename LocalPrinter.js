@@ -21,10 +21,12 @@ export default class LocalPrinter {
   }
 
   connect(serialPort) {
-    console.log('[LocalPrinter] Waiting for serial port to be ready...')
-    this.serialPort = serialPort
-    this.serialPort.on('open', () => this.start())
-    this.serialPort.on('error', err => console.log(err))
+    return new Promise((r, j) => {
+      console.log('[LocalPrinter] Waiting for serial port to be ready...')
+      this.serialPort = serialPort
+      this.serialPort.on('open', r)
+      this.serialPort.on('error', j)
+    })
   }
 
   addPlugin(plugin, opts) {
