@@ -35,23 +35,11 @@ if (!process.env.DEV_MODE) {
   printer.connect(port)
 }
 
-// OpenWeather
-// In full issues this module will print the daily forcast and any weather alerts. In update issues,
-// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
-// or hail)
-const { OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG } = process.env
-if (OPENWEATHER_TOKEN && WEATHER_LAT_LON) {
-  printer.addPlugin(
-    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG),
-    { priority: 1 }
-  )
-}
-
 // News headlines
 const { NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE } = process.env
 if (NEWSAPI_TOKEN) {
   printer.addPlugin(
-    new NewsPlugin(NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE),
+    new NewsPlugin(NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE === 'true'),
     { priority: 1 }
   )
 }
@@ -63,6 +51,18 @@ if (TELEGRAM_TOKEN) {
   printer.addPlugin(
     new TelegramPlugin(TELEGRAM_TOKEN, TG_ALLOWED_IDS),
     { priority: 1, printImmediate: TG_IMMEDIATE }
+  )
+}
+
+// OpenWeather
+// In full issues this module will print the daily forcast and any weather alerts. In update issues,
+// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
+// or hail)
+const { OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG } = process.env
+if (OPENWEATHER_TOKEN && WEATHER_LAT_LON) {
+  printer.addPlugin(
+    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG),
+    { priority: 2 }
   )
 }
 
@@ -96,14 +96,18 @@ const { QUOTES_ENABLED, QUOTE_IS_UPDATE } = process.env
 if (QUOTES_ENABLED) {
   printer.addPlugin(
     new QuotePlugin(),
-    { priority: 3, printAlways: QUOTE_IS_UPDATE }
+    { priority: 3, printAlways: QUOTE_IS_UPDATE === 'true' }
   )
 }
 
-
+// Start the printer
 const run = async () => {
   await printer.start()
-  await printer.createIssue('full')
+
+  // In dev mode create an issue immediately
+  if (process.env.DEV_MODE) {
+    await printer.createIssue('full')
+  }
 }
 
 run()

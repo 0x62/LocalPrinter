@@ -2,6 +2,7 @@ import moment from 'moment'
 import { Block } from '../../../core/index.js'
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+const fmtTemp = temp => `${Math.round(temp)}°`
 
 export default class BlockForecast extends Block {
   constructor({ conditions, temp, high, low, forecast }) {
@@ -12,14 +13,13 @@ export default class BlockForecast extends Block {
     this.low = low
     this.forecast = forecast
   }
-
+  
+  // Render a column in the hourly forecast
   _renderColumn(i, forecast, icon) {
     const COL_COUNT = 5
     const SPACING = 10
     const COL_WIDTH = (490 - (SPACING * (COL_COUNT - 1))) / COL_COUNT
     const xPos = (COL_WIDTH * i) + (SPACING * i)
-
-    console.log(`forecast ${i}: starts at ${xPos}`)
 
     // Forecast time
     this.ctx.font = "500 26px Montserrat"
@@ -34,9 +34,9 @@ export default class BlockForecast extends Block {
 
     // Temperature
     this.ctx.font = "600 28px Montserrat"
-    const tempText = `${Math.round(forecast.temp)}°`
+    const tempText = fmtTemp(forecast.temp)
     const { width: tempWidth } = this.ctx.measureText(tempText)
-    this.ctx.fillText(tempText, xPos + (COL_WIDTH / 2) - (tempWidth / 2), this.startPosY + 285)
+    this.ctx.fillText(tempText, xPos + (COL_WIDTH / 2) - (tempWidth / 2), this.startPosY + 290)
   }
 
   // Render the current block to the canvas with
@@ -73,7 +73,7 @@ export default class BlockForecast extends Block {
     }
 
     // Measure the width of the text and cover in white rect
-    this.ctx.font = "600 26px Montserrat"
+    this.ctx.font = "700 26px Montserrat"
     const { width: titleWidth } = this.ctx.measureText('WEATHER FORECAST')
 
     this.ctx.beginPath()
@@ -93,7 +93,7 @@ export default class BlockForecast extends Block {
 
     // Current temperature
     this.ctx.font = "500 52px Montserrat"
-    const tempText = `${this.temp}°`
+    const tempText = fmtTemp(this.temp)
     const { width: tempWidth } = this.ctx.measureText(tempText)
     this.ctx.fillText(tempText, 500 - tempWidth, this.startPosY + 95)
 
@@ -125,6 +125,6 @@ export default class BlockForecast extends Block {
     //   this._renderColumn(i)
     // }
 
-    return { endPosY: this.startPosY + 300 }
+    return { endPosY: this.startPosY + 305 }
   }
 }

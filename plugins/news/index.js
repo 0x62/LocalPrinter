@@ -23,7 +23,7 @@ export default class NewsPlugin extends Plugin {
 
   async fetch() {
     const { articles } = await this.api.v2.topHeadlines({ country: 'gb' })
-    
+
     this.data = {
       articles
     }

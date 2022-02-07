@@ -14,7 +14,7 @@ export default class HttpClient {
     }).toString()
 
     const path = [this._baseUrl, endpoint, qs.length ? `?${qs}` : ''].join('')
-    console.log(path)
+    // console.log(path)
     const res = await fetch(path, {
       ...options,
       headers: this._headers

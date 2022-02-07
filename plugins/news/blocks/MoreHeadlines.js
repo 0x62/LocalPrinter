@@ -88,6 +88,8 @@ export default class BlockNewsMoreHeadlines extends Block {
       }
       if (i < headlines.length - 1) {
         yPos += ITEM_SPACING
+      } else {
+        yPos += ITEM_SPACING / 2
       }
     }
 

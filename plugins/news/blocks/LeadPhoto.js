@@ -8,11 +8,13 @@ export default class BlockNewsLeadPhoto extends Block {
     this.url = url
   }
 
+  _
+
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
     const image = await this._loadRemoteImage(this.url)
-    const WIDTH = 500, HEIGHT = 300
+    const WIDTH = 500, HEIGHT = 250
 
     // Create a new canvas so we can center the image and crop to square
     const slot = createCanvas(WIDTH, HEIGHT)

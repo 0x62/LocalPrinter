@@ -19,11 +19,12 @@ export default class OpenWeatherPlugin extends Plugin {
   }
 
   get hasFreshContent() {
-    return true
+    return this.hasContent
   }
 
   get hasContent() {
-    return true
+    const { conditions, forecast, temp } = this.data
+    return conditions && forecast && temp
   }
 
   async fetch({ updateOnly }) {
@@ -40,8 +41,6 @@ export default class OpenWeatherPlugin extends Plugin {
     // Daily conditions
     const [today] = daily
     const [conditions] = today.weather
-    const low = today.temp.min
-    const high = today.temp.max
 
     // Get forecast items for next 6 hours and format
     const forecast = hourly.slice(1, 6).map(item => ({
@@ -52,13 +51,9 @@ export default class OpenWeatherPlugin extends Plugin {
 
     this.data = {
       conditions,
-      temp: Math.round(current.feels_like),
-      low,
-      high,
-      forecast
+      temp: current.feels_like,
+      forecast,
     }
-
-    console.log(this.data)
   }
 
   render(issue) {
