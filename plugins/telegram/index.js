@@ -78,7 +78,7 @@ export default class TelegramPlugin extends Plugin {
     bot.on('message', async (msg) => {
       // Check the user is allowed to message
       if (this._notAllowed(msg)) return
-      if (msg.text.charAt(0) === '/') return
+      if (msg.text && msg.text.charAt(0) === '/') return
 
       if (msg.text) {
         // Plain text message

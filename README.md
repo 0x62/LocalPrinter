@@ -161,20 +161,29 @@ issue number, and don't include the header/footer.
 
 ## Core plugins
 
-### 🎶 Spotify
+### 📰 News
+
+![News plugin screenshot](docs/plugin-news.png)
 
 Monitor a Spotify playlist for changes, and include new songs in update issues. At most three new 
 songs will be printed (oldest first). If more than three songs have been added since the last update
 the next three songs will be printed in the following update (allowing you to add many at a time
 without printing them all).
 
-### 📸 Instagram
 
-Prints out your latest post the following morning. This module uses an undocumented Instagram API
-(instagram.com/username/?\_\_a=1), which works well but is highly rate limited (a few calls an hour).
-Expect this module to break during development.
+### 🎶 Spotify
+
+![Spotify plugin screenshot](docs/plugin-spotify.png)
+
+Monitor a Spotify playlist for changes, and include new songs in update issues. At most three new 
+songs will be printed (oldest first). If more than three songs have been added since the last update
+the next three songs will be printed in the following update (allowing you to add many at a time
+without printing them all).
+
 
 ### 💬 Telegram
+
+![Telegram plugin screenshot](docs/plugin-telegram.png)
 
 Prints out messages and images received to a Telegram bot. The first time you message the bot it
 will reply with your user ID. Add this ID (and any friends) to `TG_ALLOWED_IDS` to grant permission. 
@@ -184,6 +193,12 @@ setting `TG_IMMEDIATE = false`.
 
 I'd like to add some other commands to this bot in future, e.g. printing out a custom message with
 the same renderer as the Quotes module (for massive poster-style text).
+
+### 📸 Instagram
+
+Prints out your latest post the following morning. This module uses an undocumented Instagram API
+(instagram.com/username/?\_\_a=1), which works well but is highly rate limited (a few calls an hour).
+Expect this module to break during development.
 
 ### 🌦 Weather
 
