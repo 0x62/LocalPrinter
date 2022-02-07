@@ -21,8 +21,8 @@ export default class LocalPrinter {
     this.setSchedule(schedule)
 
     if (button.pin) {
-      const button = new Gpio(button.pin, 'in', 'both')
-      button.watch((err, value) => this.createIssue(button.issueType));
+      const btn = new Gpio(button.pin, 'in', 'both')
+      btn.watch((err, value) => this.createIssue(button.issueType));
     }
   }
 
