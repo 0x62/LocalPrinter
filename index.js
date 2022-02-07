@@ -100,6 +100,7 @@ const run = async () => {
     // Connect to the serial port if not in dev mode
     const port = new SerialPort(process.env.SERIAL_PORT, { baudRate: 19200 })
     await printer.connect(port)
+    await printer._print('./output/issue-1.png')
   }
 
   await printer.start()

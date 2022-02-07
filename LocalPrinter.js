@@ -20,12 +20,18 @@ export default class LocalPrinter {
     this.setSchedule(schedule)
   }
 
-  connect(serialPort) {
+  async connect(serialPort) {
     return new Promise((r, j) => {
       console.log('[LocalPrinter] Waiting for serial port to be ready...')
       this.serialPort = serialPort
-      this.serialPort.on('open', r)
-      this.serialPort.on('error', j)
+      this.serialPort.on('open', () => {
+        console.log('[LocalPrinter] Serial port is ready')
+        this.printer = new Printer(this.serialPort)
+        r()
+      })
+      this.serialPort.on('error', err => {
+        console.log('')
+      })
     })
   }
 
@@ -50,11 +56,6 @@ export default class LocalPrinter {
 
   async start() {
     console.log('[LocalPrinter] Starting...')
-    
-    if (this.serialPort) {
-      this.printer = new Printer(this.serialPort)
-      console.log('[LocalPrinter] Initialized serial printer')
-    }
 
     await this.generator.initialize()
 
