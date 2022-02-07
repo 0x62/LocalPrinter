@@ -1,5 +1,6 @@
 import cron from 'node-cron'
 import Printer from 'thermalprinter'
+import { Gpio } from 'onoff'
 import IssueGenerator from './IssueGenerator.js'
 
 // https://github.com/xseignard/thermalPrinter
@@ -18,6 +19,9 @@ export default class LocalPrinter {
     this.generator.on('print', (filename) => this._print(filename))
 
     this.setSchedule(schedule)
+
+    this.button = new Gpio(2, 'in', 'both')
+    this.button.watch((err, value) => console.log(`button update: ${value}`));
   }
 
   async connect(serialPort) {
