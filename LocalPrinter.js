@@ -20,8 +20,10 @@ export default class LocalPrinter {
 
     this.setSchedule(schedule)
 
-    this.button = new Gpio(2, 'in', 'both')
-    this.button.watch((err, value) => console.log(`button update: ${value}`));
+    if (button.pin) {
+      const button = new Gpio(button.pin, 'in', 'both')
+      button.watch((err, value) => this.createIssue(button.issueType));
+    }
   }
 
   async connect(serialPort) {
