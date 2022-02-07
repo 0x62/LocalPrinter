@@ -218,14 +218,19 @@ I'd like to add these as core plugins but I haven't had time yet. Ideally for ca
 it would integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull requests
 welcome!
 
-* [] Stocks, crypto and market activity
-* [] Puzzles (cross words, sudoku etc)
-* [] Calendar providers
-* [] Todo/reminders providers
+- [ ] Stocks, crypto and market activity
+- [ ] Puzzles (cross words, sudoku etc)
+- [ ] Calendar providers
+- [ ] Todo/reminders providers
 
 ## Plugin ideas
 
-These are plugins I think would be cool, but are lower priority
+These are plugins I think would be cool, but are lower priority for me personally. Pull requests
+welcome!
+
+- [ ] Random cocktail (https://www.thecocktaildb.com/api.php)
+- [ ] Random facts
+- [ ] Random jokes
 
 
 ## 🎛 Creating 3rd-party plugins
