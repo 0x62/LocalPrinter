@@ -35,11 +35,23 @@ if (!process.env.DEV_MODE) {
   printer.connect(port)
 }
 
+// OpenWeather
+// In full issues this module will print the daily forcast and any weather alerts. In update issues,
+// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
+// or hail)
+const { OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG } = process.env
+if (OPENWEATHER_TOKEN && WEATHER_LAT_LON) {
+  printer.addPlugin(
+    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_LAT_LON, WEATHER_UNITS, WEATHER_LANG),
+    { priority: 1 }
+  )
+}
+
 // News headlines
-const { NEWSAPI_TOKEN } = process.env
+const { NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE } = process.env
 if (NEWSAPI_TOKEN) {
   printer.addPlugin(
-    new NewsPlugin(NEWSAPI_TOKEN),
+    new NewsPlugin(NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE),
     { priority: 1 }
   )
 }
@@ -54,25 +66,13 @@ if (TELEGRAM_TOKEN) {
   )
 }
 
-// OpenWeather
-// In full issues this module will print the daily forcast and any weather alerts. In update issues,
-// this module will only be included if the forecast includes adverse conditions (e.g rain, snow
-// or hail)
-const { OPENWEATHER_TOKEN, WEATHER_CITY } = process.env
-if (OPENWEATHER_TOKEN && WEATHER_CITY) {
-  printer.addPlugin(
-    new OpenWeatherPlugin(OPENWEATHER_TOKEN, WEATHER_CITY),
-    { priority: 2 }
-  )
-}
-
 // Spotify
 // Monitor a Spotify playlist for changes, and include new songs in update issues
 const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST } = process.env
 if (SPOTIFY_CLIENT_ID && SPOTIFY_SECRET && SPOTIFY_PLAYLIST) {
   printer.addPlugin(
     new SpotifyPlugin(SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_PLAYLIST),
-    { priority: 3 }
+    { priority: 2 }
   )
 }
 

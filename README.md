@@ -194,16 +194,18 @@ setting `TG_IMMEDIATE = false`.
 I'd like to add some other commands to this bot in future, e.g. printing out a custom message with
 the same renderer as the Quotes module (for massive poster-style text).
 
+
+### 🌦 Weather
+
+![Weather plugin screenshot](docs/plugin-weather.png)
+
+Prints the current conditions and hourly forecast for the next five hours.
+
 ### 📸 Instagram
 
 Prints out your latest post the following morning. This module uses an undocumented Instagram API
 (instagram.com/username/?\_\_a=1), which works well but is highly rate limited (a few calls an hour).
 Expect this module to break during development.
-
-### 🌦 Weather
-
-In full issues this module will print the daily forcast and any weather alerts. In update issues,
-this module will only be included if the forecast includes adverse conditions (e.g rain, snow or hail)
 
 ### 📣 Quotes
 

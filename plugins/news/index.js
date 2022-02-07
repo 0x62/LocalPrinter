@@ -7,9 +7,10 @@ import MoreHeadlines from './blocks/MoreHeadlines.js'
 import { Plugin, Blocks } from '../../core/index.js'
 
 export default class NewsPlugin extends Plugin {
-  constructor(apiKey) {
+  constructor(apiKey, condensedUpdate) {
     super()
     this.api = new NewsAPI(apiKey)
+    this.condensedUpdate = condensedUpdate
   }
 
   get hasFreshContent() {
@@ -22,8 +23,7 @@ export default class NewsPlugin extends Plugin {
 
   async fetch() {
     const { articles } = await this.api.v2.topHeadlines({ country: 'gb' })
-
-    console.log(articles)
+    
     this.data = {
       articles
     }
@@ -32,6 +32,16 @@ export default class NewsPlugin extends Plugin {
   render(issue) {
     const [article, ...otherHeadlines] = this.data.articles.filter(({ urlToImage }) => !!urlToImage)
     const headlines = otherHeadlines.map(article => article.title.split(' - ')[0])
+
+    if (issue.updateOnly && this.condensedUpdate) {
+      return [
+        new LeadHeadline(article),
+        new Blocks.Spacer(30),
+        new Subheader(),
+        new Blocks.Spacer(30),
+        new MoreHeadlines(headlines)
+      ]
+    }
 
     return [
       new LeadPhoto(article.urlToImage),

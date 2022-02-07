@@ -29,6 +29,35 @@ export default class Block {
     return loadImage(src)
   }
 
+  _drawRoundedRect(posX, posY, width, height, radius = 30, fill = true, stroke = false) {
+    if (typeof radius === 'number') {
+      radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    } else {
+      const defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+      for (const side in defaultRadius) {
+        radius[side] = radius[side] || defaultRadius[side];
+      }
+    }
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(posX + radius.tl, posY);
+    this.ctx.lineTo(posX + width - radius.tr, posY);
+    this.ctx.quadraticCurveTo(posX + width, posY, posX + width, posY + radius.tr);
+    this.ctx.lineTo(posX + width, posY + height - radius.br);
+    this.ctx.quadraticCurveTo(posX + width, posY + height, posX + width - radius.br, posY + height);
+    this.ctx.lineTo(posX + radius.bl, posY + height);
+    this.ctx.quadraticCurveTo(posX, posY + height, posX, posY + height - radius.bl);
+    this.ctx.lineTo(posX, posY + radius.tl);
+    this.ctx.quadraticCurveTo(posX, posY, posX + radius.tl, posY);
+    this.ctx.closePath();
+    if (fill) {
+      this.ctx.fill();
+    }
+    if (stroke) {
+      this.ctx.stroke();
+    }
+  }
+
   // Draw an image with dithered effect
   _drawDitheredImage(img, posX, posY, width, height) {
     this.ctx.drawImage(img, posX, posY, width, height)
