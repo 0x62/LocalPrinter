@@ -29,12 +29,6 @@ const printer = new LocalPrinter({
   },
 })
 
-if (!process.env.DEV_MODE) {
-  // Connect to the serial port if not in dev mode
-  const port = new SerialPort(process.env.SERIAL_PORT, { baudRate: 19200 })
-  printer.connect(port)
-}
-
 // News headlines
 const { NEWSAPI_TOKEN, NEWS_CONDENSED_UPDATE } = process.env
 if (NEWSAPI_TOKEN) {
@@ -102,12 +96,18 @@ if (QUOTES_ENABLED) {
 
 // Start the printer
 const run = async () => {
+  if (process.env.DEV_MODE !== 'true') {
+    // Connect to the serial port if not in dev mode
+    const port = new SerialPort(process.env.SERIAL_PORT, { baudRate: 19200 })
+    await printer.connect(port)
+  }
+
   await printer.start()
 
   // In dev mode create an issue immediately
-  if (process.env.DEV_MODE) {
+  // if (process.env.DEV_MODE) {
     await printer.createIssue('full')
-  }
+  // }
 }
 
 run()
