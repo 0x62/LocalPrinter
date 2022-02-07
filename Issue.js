@@ -52,6 +52,7 @@ export default class Issue {
     this.ctx.fill()
 
     await forEachSeries(this.blocks, async block => {
+      console.log(`[Issue] Starting render of ${block.constructor.name}`)
       block._setupCanvas(this)
       try {
         const { endPosY } = await block.render()
