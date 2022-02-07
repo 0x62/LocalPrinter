@@ -27,8 +27,7 @@ export default class BlockNewsLeadPhoto extends Block {
     slotCtx.drawImage(image, 0, 0, image.width, image.height, shiftX, shiftY, image.width * ratio, image.height * ratio)
 
     const imgData = slotCtx.getImageData(0, 0, WIDTH, HEIGHT)
-    this._convertToGs(imgData)
-    this.ctx.putImageData(imgData, 0, this.startPosY)
+    this._drawDitheredData(imgData, 0, this.startPosY)
 
     return { endPosY: this.startPosY + HEIGHT }
   }

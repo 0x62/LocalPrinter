@@ -62,6 +62,10 @@ export default class Block {
   _drawDitheredImage(img, posX, posY, width, height) {
     this.ctx.drawImage(img, posX, posY, width, height)
     const imgData = this.ctx.getImageData(posX, posY, width, height)
+    this._drawDitheredData(imgData, posX, posY)
+  }
+
+  _drawDitheredData(imgData, posX, posY) {
     const dithered = dither.atkinson(imgData)
     this.ctx.putImageData(dithered, posX, posY)
   }
