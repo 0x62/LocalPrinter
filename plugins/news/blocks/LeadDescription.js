@@ -62,7 +62,9 @@ export default class BlockNewsLeadDescription extends Block {
   // this.canvas, this.ctx, this.startPosY
   async render() {
     const [description] = this.article.description.split(' - ')
+    console.log(`DEBUG [LeadDescription] planning lines for ${description}`)
     const lines = this._planLines(description)
+    console.log(`DEBUG [LeadDescription] lines planned`)
 
     const LINE_SPACING = 18
     const LINE_HEIGHT = 18
@@ -71,6 +73,7 @@ export default class BlockNewsLeadDescription extends Block {
     for (let i = 0; i < lines.length; i++) {
       const { text, width } = lines[i]
       this._renderLine(yPos, text)
+      console.log(`DEBUG [LeadDescription] rendered text line ${i}`)
       if (i < lines.length - 1) {
         yPos += LINE_HEIGHT + LINE_SPACING
       }

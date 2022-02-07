@@ -79,7 +79,9 @@ export default class BlockNewsLeadHeadline extends Block {
     for (let i = 0; i < lines.length; i++) {
       const { text, width } = lines[i]
       this._renderLineBackground(yPos, width)
+      console.log(`DEBUG [LeadHeadline] rendered bg line ${i}`)
       this._renderLine(yPos, text)
+      console.log(`DEBUG [LeadHeadline] rendered text line ${i}`)
       if (i < lines.length - 1) {
         yPos += LINE_HEIGHT + LINE_SPACING
       }
