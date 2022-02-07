@@ -8,8 +8,6 @@ export default class BlockNewsLeadPhoto extends Block {
     this.url = url
   }
 
-  _
-
   // Render the current block to the canvas with
   // this.canvas, this.ctx, this.startPosY
   async render() {
