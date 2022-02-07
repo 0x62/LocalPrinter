@@ -44,7 +44,7 @@ export default class Storage {
   registerPlugin(plugin) {
     const name = plugin.constructor.name
     // this.db.data[`${name}.seenIds`] ||= []
-    this.db.data[name] ||= {
+    this.db.data[name] = this.db.data[name] || {
       seenIds: []
     }
     plugin.registerStorage(this)
