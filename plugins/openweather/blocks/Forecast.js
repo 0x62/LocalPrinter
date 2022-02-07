@@ -13,7 +13,7 @@ export default class BlockForecast extends Block {
     this.low = low
     this.forecast = forecast
   }
-  
+
   // Render a column in the hourly forecast
   _renderColumn(i, forecast, icon) {
     const COL_COUNT = 5
@@ -50,8 +50,12 @@ export default class BlockForecast extends Block {
       )
     ])
 
+    console.log('DEBUG [Forecast] Loaded images')
+
     // Daily forecast icon
     this._drawDitheredImage(dailyIcon, -10, this.startPosY, 160, 160)
+
+    console.log('DEBUG [Forecast] Daily icon drawn')
 
     // Background diagonal stripes
     const NUMBER_OF_STRIPES = 59
@@ -72,9 +76,13 @@ export default class BlockForecast extends Block {
       this.ctx.stroke()
     }
 
+    console.log('DEBUG [Forecast] bg stripes drawn')
+
     // Measure the width of the text and cover in white rect
     this.ctx.font = "700 26px Montserrat"
     const { width: titleWidth } = this.ctx.measureText('WEATHER FORECAST')
+
+    console.log('DEBUG [Forecast] title measured')
 
     this.ctx.beginPath()
     this.ctx.rect(0, this.startPosY - 1, titleWidth + 20, 24)
@@ -82,20 +90,28 @@ export default class BlockForecast extends Block {
     this.ctx.closePath()
     this.ctx.fill()
 
+    console.log('DEBUG [Forecast] title bg drawn')
+
     // Weather title
     this.ctx.fillStyle = 'black'
     this.ctx.fillText('WEATHER FORECAST', 0, this.startPosY + 20)
+
+    console.log('DEBUG [Forecast] title drawn')
 
     // Daily forecast labels
     this.ctx.fillText(this.conditions.main, 130, this.startPosY + 70)
     this.ctx.font = "500 24px Montserrat"
     this.ctx.fillText(capitalize(this.conditions.description), 130, this.startPosY + 105)
 
+    console.log('DEBUG [Forecast] conditions drawn')
+
     // Current temperature
     this.ctx.font = "500 52px Montserrat"
     const tempText = fmtTemp(this.temp)
     const { width: tempWidth } = this.ctx.measureText(tempText)
     this.ctx.fillText(tempText, 500 - tempWidth, this.startPosY + 95)
+
+    console.log('DEBUG [Forecast] temperature drawn')
 
     // Dividing line
     this.ctx.strokeStyle = "#a3a3a3"
@@ -106,8 +122,11 @@ export default class BlockForecast extends Block {
     this.ctx.closePath()
     this.ctx.stroke()
 
+    console.log('DEBUG [Forecast] divider drawn')
+
     for (let i = 0; i < 5; i++) {
       this._renderColumn(i, this.forecast[i], hourlyIcons[i])
+      console.log(`DEBUG [Forecast] column ${i} drawn`)
     }
 
     // this.ctx.strokeStyle = '#d4d4d4'
