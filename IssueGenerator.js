@@ -124,18 +124,23 @@ export default class IssueGenerator extends EventEmitter {
   }
 
   async renderToFile() {
-    const TEMP_FILE = `output/issue-${this.issue.issueNo}.png`
-    const file = fs.createWriteStream(TEMP_FILE)
-    const data = await this.issue.render()
-    
-    // Wait for file to be written
-    await new Promise(r => {
-      data.pipe(file)
-      file.on('finish', () => r())
-    })
+    try {
+      const TEMP_FILE = `output/issue-${this.issue.issueNo}.png`
+      const file = fs.createWriteStream(TEMP_FILE)
+      const data = await this.issue.render()
+      
+      // Wait for file to be written
+      await new Promise(r => {
+        data.pipe(file)
+        file.on('finish', () => r())
+      })
 
-    console.log(`[IssueGenerator] Export complete`)
-    this.emit('print', TEMP_FILE)
+      console.log(`[IssueGenerator] Export complete`)
+      this.emit('print', TEMP_FILE)
+    } catch (err) {
+      console.log(`[IssueGenerator] Error rendering issue`)
+      console.log(err)
+    }
   }
 
   _createBlocks(plugins) {
