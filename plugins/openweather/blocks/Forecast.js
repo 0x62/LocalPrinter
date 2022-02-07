@@ -30,7 +30,7 @@ export default class BlockForecast extends Block {
     this.ctx.fillText(hour, xPos + (COL_WIDTH / 2) - (timeWidth / 2), this.startPosY + 185)
 
     // Daily forecast icon
-    this._drawGsImage(icon, xPos, this.startPosY + 180, COL_WIDTH, COL_WIDTH)
+    this._drawDitheredImage(icon, xPos, this.startPosY + 180, COL_WIDTH, COL_WIDTH)
 
     // Temperature
     this.ctx.font = "600 28px Montserrat"
@@ -51,7 +51,7 @@ export default class BlockForecast extends Block {
     ])
 
     // Daily forecast icon
-    this._drawGsImage(dailyIcon, -10, this.startPosY, 160, 160)
+    this._drawDitheredImage(dailyIcon, -10, this.startPosY, 160, 160)
 
     // Background diagonal stripes
     const NUMBER_OF_STRIPES = 59
