@@ -218,6 +218,10 @@ I'd like to add these as core plugins but I haven't had time yet. Ideally for ca
 it would integrate with iOS (perhaps using a public calendar link and `node-ical`?). Pull requests
 welcome!
 
+- [ ] Hacker News
+- [ ] Product Hunt
+- [ ] Reddit
+- [ ] Spotify podcasts (recommendations and/or new episodes)
 - [ ] Stocks, crypto and market activity
 - [ ] Puzzles (cross words, sudoku etc)
 - [ ] Calendar providers
