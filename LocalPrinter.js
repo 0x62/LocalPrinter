@@ -83,7 +83,7 @@ export default class LocalPrinter {
         return r()
       }
 
-      console.log('[LocalPrinter] Printing...')
+      console.log(`[LocalPrinter] Printing ${filename}`)
       this.printer.printImage(filename).print(r)
     })
   }
