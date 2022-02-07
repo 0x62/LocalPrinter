@@ -2,7 +2,7 @@ import { EventEmitter } from 'events'
 import pIteration from 'p-iteration'
 import HttpClient from './HttpClient.js'
 
-const { forEach } = pIteration
+const { forEachSeries } = pIteration
 
 export default class Plugin extends EventEmitter {
   constructor(httpConfig) {
@@ -50,7 +50,7 @@ export default class Plugin extends EventEmitter {
   }
 
   async cleanUp() {
-    await forEach(this._onCleanUp, async (fn) => {
+    await forEachSeries(this._onCleanUp, async (fn) => {
       try {
         await fn()
       } catch (err) {

@@ -161,7 +161,7 @@ export default class TelegramPlugin extends Plugin {
   // can see what it looked like printed
   async _sendReply(blocks, message) {
     console.log(`[Telegram] Creating reply for ${message.chat}`)
-    const canvas = createCanvas(500, 1000)
+    const canvas = createCanvas(500, 5000)
     const ctx = canvas.getContext('2d')
 
     // Fill the canvas in white
