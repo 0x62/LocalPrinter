@@ -63,9 +63,8 @@ export default class Storage {
     const unseen = this.unseenIds(provider, ids)
     console.log(`[Storage.${provider}] Marking as seen: ${unseen.join(', ')}`)
 
-    this.db.data[provider].seenIds ||= []
     this.db.data[provider].seenIds = [
-      ...this.db.data[provider].seenIds,
+      ...(this.db.data[provider].seenIds || []),
       ...unseen
     ]
   }
