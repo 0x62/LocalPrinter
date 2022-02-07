@@ -9,6 +9,7 @@ export default class BlockNewsLeadHeadline extends Block {
   _planLines(message) {
     // Calculate the width of a space
     this.ctx.font = "36px Yeseva One"
+    console.log(`DEBUG [LeadHeadline] calling measure text`)
     const { width: spaceWidth } = this.ctx.measureText(' ')
 
     // Calculate the width of each word
@@ -70,7 +71,9 @@ export default class BlockNewsLeadHeadline extends Block {
   // this.canvas, this.ctx, this.startPosY
   async render() {
     const [title] = this.article.title.split(' - ')
+    console.log(`DEBUG [LeadHeadline] planning lines`)
     const lines = this._planLines(title)
+    console.log(`DEBUG [LeadHeadline] lines planned`)
 
     const LINE_SPACING = 18
     const LINE_HEIGHT = 33
