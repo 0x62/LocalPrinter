@@ -19,7 +19,7 @@ export default class Storage {
 
   async initialize() {
     await this.db.read()
-    this.db.data ||= {
+    this.db.data = this.db.data || {
       hasRunOnce: false,
       nextIssueNo: 1,
     }
