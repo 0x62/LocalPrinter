@@ -105,9 +105,9 @@ const run = async () => {
   await printer.start()
 
   // In dev mode create an issue immediately
-  // if (process.env.DEV_MODE) {
-  //  await printer.createIssue('full')
-  // }
+  if (process.env.DEV_MODE) {
+   await printer.createIssue('full')
+  }
 }
 
 run()

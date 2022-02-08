@@ -1,20 +1,28 @@
 import canvas from 'canvas'
 import dither from 'canvas-dither'
-const { Image, loadImage } = canvas
+const { createCanvas, loadImage, Image } = canvas
 
 // Base class for a block
 export default class Block {
   constructor() {
     this.canvas = null
-    this.startPosY = null
+  }
+
+  destroy() {
+    this.canvas = null
+    this.ctx = null
   }
 
   // Set the canvas and startPosY (called by IssueGenerator)
   _setupCanvas(issue) {
+    // this.issue = issue
+    // this.canvas = issue.canvas
+    // this.ctx = issue.ctx
+    // this.startPosY = issue.height
     this.issue = issue
-    this.canvas = issue.canvas
-    this.ctx = issue.ctx
-    this.startPosY = issue.height
+    this.canvas = createCanvas(500, 2000)
+    this.ctx = this.canvas.getContext('2d')
+    this.startPosY = 0
   }
 
   _loadRemoteImage(src) {
