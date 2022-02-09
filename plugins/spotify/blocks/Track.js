@@ -30,7 +30,7 @@ export default class BlockSpotifyTrack extends Block {
     ])
 
     // Draw album art and scan code
-    this._drawDitheredImage(albumArt, 0, this.startPosY, 160, 160)
+    this.ctx.drawImage(albumArt, 0, this.startPosY, 160, 160)
     this.ctx.drawImage(scanCode, 170, this.startPosY + 80, 320, 80)
 
     // Artist name
