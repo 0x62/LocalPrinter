@@ -79,13 +79,10 @@ export default class Issue {
 
     console.log(`[Issue] Final height ${this.height}px`)
 
-    const PRINT_WIDTH = 384
-    const PRINT_HEIGHT = (PRINT_WIDTH / 500) * this.height
-
-    // To resize the canvas we create another canvas of the correct size and copy data
-    const exporter = createCanvas(PRINT_WIDTH, PRINT_HEIGHT)
+    // To resize the canvas we create another canvas of the correct height and copy data
+    const exporter = createCanvas(500, this.height)
     const exportCtx = exporter.getContext('2d')
-    exportCtx.drawImage(this.canvas, 0, 0, 500, this.height, 0, 0, PRINT_WIDTH, PRINT_HEIGHT)
+    exportCtx.drawImage(this.canvas, 0, 0, 500, this.height, 0, 0, 500, this.height)
 
     console.log(`[Issue] Render complete`)
 
