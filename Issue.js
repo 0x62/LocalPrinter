@@ -54,27 +54,27 @@ export default class Issue {
     await forEachSeries(this.blocks, async (block, idx) => {
       console.log(`[Issue] Starting render of ${block.constructor.name}`)
       block._setupCanvas(this)
-      // try {
-      //   const { endPosY } = await block.render()
-      //   console.log(`[Issue] Rendered ${block.constructor.name} (${endPosY - this.height}px)`)
-      //   this.height = endPosY
-      // } catch (err) {
-      //   console.log(`[Issue] Failed to render ${block.constructor.name}`)
-      //   console.log(err)
-      // }
-
       try {
-        const { endPosY: height } = await block.render()
-        await block.renderToFile(idx, height)
-        // Copy canvas from block to main
-        // this.ctx.drawImage(block.canvas, 0, 0, 500, height, 0, this.height, 500, height)
-        // console.log(`[Issue] Rendered ${block.constructor.name} (${height}px)`)
-        this.height += height
-        block.destroy()
+        const { endPosY } = await block.render()
+        console.log(`[Issue] Rendered ${block.constructor.name} (${endPosY - this.height}px)`)
+        this.height = endPosY
       } catch (err) {
         console.log(`[Issue] Failed to render ${block.constructor.name}`)
         console.log(err)
       }
+
+      // try {
+      //   const { endPosY: height } = await block.render()
+      //   await block.renderToFile(idx, height)
+      //   // Copy canvas from block to main
+      //   // this.ctx.drawImage(block.canvas, 0, 0, 500, height, 0, this.height, 500, height)
+      //   // console.log(`[Issue] Rendered ${block.constructor.name} (${height}px)`)
+      //   this.height += height
+      //   block.destroy()
+      // } catch (err) {
+      //   console.log(`[Issue] Failed to render ${block.constructor.name}`)
+      //   console.log(err)
+      // }
     })
 
     console.log(`[Issue] Final height ${this.height}px`)

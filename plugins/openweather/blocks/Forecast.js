@@ -34,7 +34,7 @@ export default class BlockForecast extends Block {
     console.log('drawing dithered image', { icon, xPos, startPosY: this.startPosY + 180, COL_WIDTH })
 
     // Daily forecast icon
-    this._drawDitheredImage(icon, xPos, this.startPosY + 180, COL_WIDTH, COL_WIDTH)
+    this.ctx.drawImage(icon, xPos, this.startPosY + 180, COL_WIDTH, COL_WIDTH)
 
     // Temperature
     this.ctx.font = "600 28px Montserrat"

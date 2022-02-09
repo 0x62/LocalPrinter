@@ -14,40 +14,40 @@ export default class Block {
     this.ctx = null
   }
 
-  async renderToFile(i, height) {
-    try {
-      // To resize the canvas we create another canvas of the correct size and copy data
-      const exporter = createCanvas(500, height)
-      const exportCtx = exporter.getContext('2d')
-      exportCtx.drawImage(this.canvas, 0, 0, 500, height, 0, 0, 500, height)
+  // async renderToFile(i, height) {
+  //   try {
+  //     // To resize the canvas we create another canvas of the correct size and copy data
+  //     const exporter = createCanvas(500, height)
+  //     const exportCtx = exporter.getContext('2d')
+  //     exportCtx.drawImage(this.canvas, 0, 0, 500, height, 0, 0, 500, height)
 
-      const TEMP_FILE = `output/block-${i}.png`
-      const file = fs.createWriteStream(TEMP_FILE)
-      const data = await exporter.createPNGStream()
+  //     const TEMP_FILE = `output/block-${i}.png`
+  //     const file = fs.createWriteStream(TEMP_FILE)
+  //     const data = await exporter.createPNGStream()
       
-      // Wait for file to be written
-      await new Promise(r => {
-        data.pipe(file)
-        file.on('finish', () => r())
-      })
+  //     // Wait for file to be written
+  //     await new Promise(r => {
+  //       data.pipe(file)
+  //       file.on('finish', () => r())
+  //     })
 
-      console.log(`[Block] rendered to ${TEMP_FILE}`)
-    } catch (err) {
-      console.log(`[Block] Error rendering block`)
-      console.log(err)
-    }
-  }
+  //     console.log(`[Block] rendered to ${TEMP_FILE}`)
+  //   } catch (err) {
+  //     console.log(`[Block] Error rendering block`)
+  //     console.log(err)
+  //   }
+  // }
 
   // Set the canvas and startPosY (called by IssueGenerator)
   _setupCanvas(issue) {
-    // this.issue = issue
-    // this.canvas = issue.canvas
-    // this.ctx = issue.ctx
-    // this.startPosY = issue.height
     this.issue = issue
-    this.canvas = createCanvas(500, 2000)
-    this.ctx = this.canvas.getContext('2d')
-    this.startPosY = 0
+    this.canvas = issue.canvas
+    this.ctx = issue.ctx
+    this.startPosY = issue.height
+    // this.issue = issue
+    // this.canvas = createCanvas(500, 2000)
+    // this.ctx = this.canvas.getContext('2d')
+    // this.startPosY = 0
   }
 
   _loadRemoteImage(src) {
