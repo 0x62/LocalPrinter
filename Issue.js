@@ -51,7 +51,7 @@ export default class Issue {
     this.ctx.closePath()
     this.ctx.fill()
 
-    await forEachSeries(this.blocks, async block => {
+    await forEachSeries(this.blocks, async (block, idx) => {
       console.log(`[Issue] Starting render of ${block.constructor.name}`)
       block._setupCanvas(this)
       // try {
@@ -65,9 +65,10 @@ export default class Issue {
 
       try {
         const { endPosY: height } = await block.render()
+        await block.renderToFile(idx, height)
         // Copy canvas from block to main
-        this.ctx.drawImage(block.canvas, 0, 0, 500, height, 0, this.height, 500, height)
-        console.log(`[Issue] Rendered ${block.constructor.name} (${height}px)`)
+        // this.ctx.drawImage(block.canvas, 0, 0, 500, height, 0, this.height, 500, height)
+        // console.log(`[Issue] Rendered ${block.constructor.name} (${height}px)`)
         this.height += height
         block.destroy()
       } catch (err) {

@@ -26,8 +26,12 @@ export default class BlockForecast extends Block {
     const hour = moment(forecast.ts * 1000).format('HH')
     const { width: timeWidth } = this.ctx.measureText(hour)
 
+    console.log('drawing time')
     // Time header
     this.ctx.fillText(hour, xPos + (COL_WIDTH / 2) - (timeWidth / 2), this.startPosY + 185)
+
+
+    console.log('drawing dithered image', { icon, xPos, startPosY: this.startPosY + 180, COL_WIDTH })
 
     // Daily forecast icon
     this._drawDitheredImage(icon, xPos, this.startPosY + 180, COL_WIDTH, COL_WIDTH)
@@ -37,6 +41,8 @@ export default class BlockForecast extends Block {
     const tempText = fmtTemp(forecast.temp)
     const { width: tempWidth } = this.ctx.measureText(tempText)
     this.ctx.fillText(tempText, xPos + (COL_WIDTH / 2) - (tempWidth / 2), this.startPosY + 290)
+
+    console.log('drawing temperature')
   }
 
   // Render the current block to the canvas with
