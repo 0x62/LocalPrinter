@@ -23,6 +23,11 @@ export default class LocalPrinter {
     if (button.pin) {
       const btn = new Gpio(button.pin, 'in', 'both')
       btn.watch((err, value) => this.createIssue(button.issueType));
+
+      if (button.ledPin) {
+        this.led = new Gpio(button.ledPin, 'out')
+        const iv = setInterval(_ => this.led.writeSync(this.led.readSync() ^ 1), 500);
+      }
     }
   }
 
@@ -36,7 +41,7 @@ export default class LocalPrinter {
         r()
       })
       this.serialPort.on('error', err => {
-        console.log('')
+        console.log(`[LocalPrinter] Serial port error: ${err.message}`)
       })
     })
   }
