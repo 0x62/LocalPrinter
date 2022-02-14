@@ -37,7 +37,7 @@ export default class LocalPrinter {
   }
 
   _unflashLed() {
-    if (!this,ledIv) return
+    if (!this.ledIv) return
     clearInterval(this.ledIv)
     this.ledIv = null
   }
