@@ -21,14 +21,19 @@ export default class LocalPrinter {
     this.setSchedule(schedule)
 
     if (button.pin) {
-      const btn = new Gpio(button.pin, 'in', 'both')
-      btn.watch((err, value) => this.createIssue(button.issueType));
+      this.btn = new Gpio(button.pin, 'in', 'rising', { debounceTimeout: 100 })
+      this.btn.watch((err, value) => this.createIssue(button.issueType));
 
       if (button.ledPin) {
         this.led = new Gpio(button.ledPin, 'out')
         const iv = setInterval(_ => this.led.writeSync(this.led.readSync() ^ 1), 500);
       }
     }
+
+    process.on('SIGINT', _ => {
+      if (this.btn) this.btn.unexport();
+      if (this.led) this.led.unexport();
+    })
   }
 
   _flashLed(speed = 300) {
