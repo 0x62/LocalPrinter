@@ -31,6 +31,17 @@ export default class LocalPrinter {
     }
   }
 
+  _flashLed(speed = 300) {
+    if (!this.led) return
+    this.ledIv = setInterval(_ => this.led.writeSync(this.led.readSync() ^ 1), speed);
+  }
+
+  _unflashLed() {
+    if (!this,ledIv) return
+    clearInterval(this.ledIv)
+    this.ledIv = null
+  }
+
   async connect(serialPort) {
     return new Promise((r, j) => {
       console.log('[LocalPrinter] Waiting for serial port to be ready...')
@@ -66,20 +77,24 @@ export default class LocalPrinter {
   }
 
   async start() {
+    this._flashLed(200)
     console.log('[LocalPrinter] Starting...')
 
     await this.generator.initialize()
 
     console.log('[LocalPrinter] Running')
     console.log(this.config.schedule.map(({ pattern, issueType }) => `  - ${issueType} issue at ${pattern}`).join('\n'))
+    this._unflashLed()
   }
 
   async createIssue(type = 'full') {
+    this._flashLed(500)
     if (type === 'full') {
       await this.generator.createIssue()
     } else if (type === 'update') {
       await this.generator.createUpdateIssue()
     }
+    this._unflashLed()
   }
 
   // Handle GPIO for main button pushed, should create a full issue
