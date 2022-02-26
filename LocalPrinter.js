@@ -45,6 +45,7 @@ export default class LocalPrinter {
     if (!this.ledIv) return
     clearInterval(this.ledIv)
     this.ledIv = null
+    this.led.writeSync(0)
   }
 
   async connect(serialPort) {
@@ -82,7 +83,7 @@ export default class LocalPrinter {
   }
 
   async start() {
-    this._flashLed(200)
+    this._flashLed(500)
     console.log('[LocalPrinter] Starting...')
 
     await this.generator.initialize()
@@ -93,7 +94,7 @@ export default class LocalPrinter {
   }
 
   async createIssue(type = 'full') {
-    this._flashLed(500)
+    this._flashLed(200)
     if (type === 'full') {
       await this.generator.createIssue()
     } else if (type === 'update') {
