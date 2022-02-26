@@ -3,16 +3,16 @@ import pIteration from 'p-iteration'
 const { createCanvas, registerFont } = canvas
 const { forEachSeries } = pIteration
 
-registerFont(__dirname + '/core/fonts/staatliches.ttf', { family: 'Staatliches' })
-registerFont(__dirname + '/core/fonts/gloria-hallelujah.ttf', { family: 'Gloria Hallelujah' })
-registerFont(__dirname + '/core/fonts/montserrat-extralight.ttf', { family: 'Montserrat', weight: 200 })
-registerFont(__dirname + '/core/fonts/montserrat-light.ttf', { family: 'Montserrat', weight: 300 })
-registerFont(__dirname + '/core/fonts/montserrat-regular.ttf', { family: 'Montserrat', weight: 400 })
-registerFont(__dirname + '/core/fonts/montserrat-medium.ttf', { family: 'Montserrat', weight: 500 })
-registerFont(__dirname + '/core/fonts/montserrat-semibold.ttf', { family: 'Montserrat', weight: 600 })
-registerFont(__dirname + '/core/fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
-registerFont(__dirname + '/core/fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
-registerFont(__dirname + '/core/fonts/yesevaone.ttf', { family: 'Yeseva One' })
+registerFont('./core/fonts/staatliches.ttf', { family: 'Staatliches' })
+registerFont('./core/fonts/gloria-hallelujah.ttf', { family: 'Gloria Hallelujah' })
+registerFont('./core/fonts/montserrat-extralight.ttf', { family: 'Montserrat', weight: 200 })
+registerFont('./core/fonts/montserrat-light.ttf', { family: 'Montserrat', weight: 300 })
+registerFont('./core/fonts/montserrat-regular.ttf', { family: 'Montserrat', weight: 400 })
+registerFont('./core/fonts/montserrat-medium.ttf', { family: 'Montserrat', weight: 500 })
+registerFont('./core/fonts/montserrat-semibold.ttf', { family: 'Montserrat', weight: 600 })
+registerFont('./core/fonts/montserrat-bold.ttf', { family: 'Montserrat', weight: 700 })
+registerFont('./core/fonts/montserrat-extrabold.ttf', { family: 'Montserrat', weight: 800 })
+registerFont('./core/fonts/yesevaone.ttf', { family: 'Yeseva One' })
 
 export default class Issue {
   constructor({ issueNo, issuedAt, updateOnly, realtime }) {
